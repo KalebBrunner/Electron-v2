@@ -3,6 +3,11 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
+const windows = new Set<BrowserWindow>()
+const OFFSET_X = 24
+const OFFSET_Y = 24
+let lastBounds: Electron.Rectangle | null = null
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -15,6 +20,30 @@ function createWindow(): void {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false
     }
+  })
+
+  if (lastBounds) {
+    mainWindow.setBounds({
+      x: lastBounds.x + OFFSET_X,
+      y: lastBounds.y + OFFSET_Y,
+      width: lastBounds.width,
+      height: lastBounds.height
+    })
+  }
+
+  windows.add(mainWindow)
+
+  const updateLast = () => {
+    try {
+      lastBounds = mainWindow.getBounds()
+    } catch {}
+  }
+
+  mainWindow.on('move', updateLast)
+  mainWindow.on('resize', updateLast)
+
+  mainWindow.on('closed', () => {
+    windows.delete(mainWindow)
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -72,3 +101,12 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// ipcMain.handle('window:create', () => {
+//   createWindow()
+// })
+
+ipcMain.on('window:create', () => {
+  console.log('IPC window:create received')
+  createWindow()
+})

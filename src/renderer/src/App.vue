@@ -2,6 +2,10 @@
 import Versions from './components/Versions.vue'
 
 const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+
+const DuplicateWindow = (): void => {
+  window.electron.ipcRenderer.send('window:create')
+}
 </script>
 
 <template>
@@ -20,6 +24,9 @@ const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
     </div>
     <div class="action">
       <a target="_blank" rel="noreferrer" @click="ipcHandle">Send IPC</a>
+    </div>
+    <div class="action">
+      <a target="_blank" rel="noreferrer" @click="DuplicateWindow">Duplicate Window</a>
     </div>
   </div>
   <Versions />
