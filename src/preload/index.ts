@@ -1,8 +1,10 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+    platform: process.platform
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
@@ -21,6 +23,3 @@ if (process.contextIsolated) {
   window.api = api
 }
 
-// contextBridge.exposeInMainWorld('api', {
-//   createWindow: () => ipcRenderer.invoke('window:create')
-// })
