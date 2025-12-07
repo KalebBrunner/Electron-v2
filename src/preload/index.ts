@@ -5,7 +5,7 @@ import { runDevTests } from "../main/dev-tests";
 // Custom APIs for renderer
 const api = {
     platform: process.platform,
-    getfile: runDevTests,
+    getDirents: runDevTests,
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

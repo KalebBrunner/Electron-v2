@@ -1,15 +1,14 @@
-import { Dirent } from "../objects/Dirent";
 import { getDefaultPath } from "./file-system";
+import { Dirent } from "../objects/Dirent";
 
-export function runDevTests(): Dirent {
-    // put any functions you want to manually sanity check here
+export async function runDevTests(): Promise<Dirent[]> {
     console.log("[dev-tests] platform:", process.platform);
 
-    let myDirent: Dirent = new Dirent("file1");
+    const myDirents: Dirent[] = (await getDefaultPath()) ?? [];
 
-    console.log("[dev-tests] filetest:", myDirent);
+    for (const dirent of myDirents) {
+        console.log("[dev-tests]", dirent.name);
+    }
 
-    getDefaultPath();
-
-    return myDirent;
+    return myDirents;
 }

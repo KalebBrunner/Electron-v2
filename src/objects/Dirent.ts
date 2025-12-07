@@ -5,10 +5,11 @@ export enum DirentType {
 
 export class Dirent {
     public constructor(
-        public filename: string,
+        public name: string,
         public path?: string,
-        public size?: number,
-        public type?: DirentType,
+        public isDirectory?: boolean,
         public extension?: string,
+        public size?: number,
+        public modified?: string,
     ) {}
 }
