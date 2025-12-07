@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { Dirent } from 'src/objects/Dirent';
+import { Dirent } from "src/objects/Dirent";
 
-
-
-const platform = window.api.platform
-const myfile: Dirent = window.api.getfile()
-
+const platform = window.api.platform;
+const myfile: Dirent = window.api.getfile();
 </script>
 
 <template>
@@ -14,7 +11,13 @@ const myfile: Dirent = window.api.getfile()
     <div>Here is the file {{ myfile }}</div>
     <div class="actions">
         <div class="action">
-            <a target="_blank" rel="noreferrer" @click="$emit('GotoFrontPage')">Go to front page</a>
+            <a
+                target="_blank"
+                rel="noreferrer"
+                @click="$emit('GotoFrontPage')"
+            >
+                Go to front page
+            </a>
         </div>
     </div>
 </template>

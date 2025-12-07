@@ -1,13 +1,13 @@
 {
-  "[typescript]": {
-    "editor.defaultFormatter": "prettier.prettier-vscode"
-  },
-  "[javascript]": {
-    "editor.defaultFormatter": "prettier.prettier-vscode"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "prettier.prettier-vscode"
-  },
-  "prettier.configPath": ".prettierrc.json",
-  "prettier.requireConfig": true
+    "[typescript]": {
+        "editor.defaultFormatter": "prettier.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "prettier.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "prettier.prettier-vscode"
+    },
+    "prettier.configPath": ".prettierrc.json",
+    "prettier.requireConfig": true
 }
