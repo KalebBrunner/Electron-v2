@@ -1,9 +1,11 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { runDevTests } from '../main/dev-tests'
 
 // Custom APIs for renderer
 const api = {
-    platform: process.platform
+    platform: process.platform,
+    getfile: runDevTests
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
