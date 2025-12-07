@@ -1,99 +1,11 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
-import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
-import { runDevTests } from './dev-tests'
-
-const windows = new Set<BrowserWindow>()
-const OFFSET_X = 24
-const OFFSET_Y = 24
-let lastBounds: Electron.Rectangle | null = null
-
-function createWindow(): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
-    show: false,
-    autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
-  })
-
-  if (lastBounds) {
-    mainWindow.setBounds({
-      x: lastBounds.x + OFFSET_X,
-      y: lastBounds.y + OFFSET_Y,
-      width: lastBounds.width,
-      height: lastBounds.height
-    })
-  }
-
-  windows.add(mainWindow)
-
-  const updateLast = () => {
-    try {
-      lastBounds = mainWindow.getBounds()
-    } catch {}
-  }
-
-  mainWindow.on('move', updateLast)
-  mainWindow.on('resize', updateLast)
-
-  mainWindow.on('closed', () => {
-    windows.delete(mainWindow)
-  })
-
-  mainWindow.on('ready-to-show', () => {
-    mainWindow.show()
-  })
-
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
-
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
-}
+import { app, ipcMain } from 'electron'
+import { createWindow } from './create-window'
+import { appSetup } from './app-setup'
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
-
-  if (is.dev) {
-    runDevTests()
-  }
-
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
-  })
-
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
-
-  createWindow()
-
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-  })
-})
+app.whenReady().then(appSetup)
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -106,11 +18,6 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
-// ipcMain.handle('window:create', () => {
-//   createWindow()
-// })
-
 ipcMain.on('window:create', () => {
   console.log('IPC window:create received')
   createWindow()
