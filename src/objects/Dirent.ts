@@ -5,11 +5,24 @@ export enum DirentType {
 
 export class Dirent {
     public constructor(
+        public fullpath: string,
         public name: string,
-        public path?: string,
-        public isDirectory?: boolean,
-        public extension?: string,
-        public size?: number,
+        public location: string,
         public modified?: string,
+    ) {}
+}
+
+export class File extends Dirent{
+
+
+    public constuctor(
+                public extension: string,
+        public size: number,
+    ) {}
+}
+
+export class Folder {
+    public constructor(
+        public itemCount: number,
     ) {}
 }
