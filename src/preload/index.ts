@@ -1,11 +1,11 @@
-import { contextBridge } from "electron";
+import { contextBridge, ipcRenderer } from "electron";
 import { electronAPI } from "@electron-toolkit/preload";
 import { runDevTests } from "../main/dev-tests";
 
 // Custom APIs for renderer
 const api = {
     platform: process.platform,
-    getDirents: runDevTests,
+    readdir: (path?: string) => ipcRenderer.invoke("readdir", path),
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

@@ -18,5 +18,5 @@ const platform = window.api.platform;
             </a>
         </div>
     </div>
-    <DirentList></DirentList>
+    <DirentList />
 </template>
