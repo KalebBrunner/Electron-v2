@@ -20,7 +20,6 @@ export async function readdir(path?: string): Promise<DirectoryT | undefined> {
     }
 
     // attempt to read and convert directory
-
     try {
         const fsDirectory = await fsReaddirWithTypes(path);
         return convertToDirectory(fsDirectory);
@@ -44,7 +43,7 @@ function convertToDirectory(fsDirectory: fsDirentT[]): DirectoryT {
     for (const fsdirent of fsDirectory) {
         console.log("**************************** Count: ", ++count);
         const dirrent = convertToDirent(fsdirent);
-        printDirent(dirrent);
+        void logDirent(dirrent);
         directory.push(dirrent);
     }
     return directory;
@@ -52,17 +51,14 @@ function convertToDirectory(fsDirectory: fsDirentT[]): DirectoryT {
 
 function convertToDirent(fsDirent: fsDirentT): DirentT {
     const pathUtil = require("path");
-    // const pathUtil = require("path");
-    const kind = getDirentKind(fsDirent);
-    const fullpath = pathUtil.join(fsDirent.parentPath, fsDirent.name);
+    const fullpath: string = pathUtil.join(fsDirent.parentPath, fsDirent.name);
+    const kind: DirentKind = getDirentKind(fsDirent);
 
-    // const fullpath: string = array.join(fsDirent.parentPath, '\\', fsDirent.name)
     switch (kind) {
         case DirentKind.File:
-            console.log("File");
             return new File(fsDirent.name, fsDirent.parentPath, fullpath, kind);
         case DirentKind.Folder:
-            console.log("Folder");
+            // console.log("Folder");
             return new Folder(
                 fsDirent.name,
                 fsDirent.parentPath,
@@ -70,7 +66,7 @@ function convertToDirent(fsDirent: fsDirentT): DirentT {
                 kind,
             );
         case DirentKind.BlockDevice:
-            console.log("Block Device");
+            // console.log("Block Device");
             return new DirentOther(
                 fsDirent.name,
                 fsDirent.parentPath,
@@ -78,7 +74,7 @@ function convertToDirent(fsDirent: fsDirentT): DirentT {
                 kind,
             );
         case DirentKind.CharacterDevice:
-            console.log("Character Device");
+            // console.log("Character Device");
             return new DirentOther(
                 fsDirent.name,
                 fsDirent.parentPath,
@@ -86,7 +82,7 @@ function convertToDirent(fsDirent: fsDirentT): DirentT {
                 kind,
             );
         case DirentKind.SymbolicLink:
-            console.log("Symbolic Link");
+            // console.log("Symbolic Link");
             return new DirentOther(
                 fsDirent.name,
                 fsDirent.parentPath,
@@ -94,7 +90,7 @@ function convertToDirent(fsDirent: fsDirentT): DirentT {
                 kind,
             );
         case DirentKind.FIFO:
-            console.log("FIFO");
+            // console.log("FIFO");
             return new DirentOther(
                 fsDirent.name,
                 fsDirent.parentPath,
@@ -102,7 +98,7 @@ function convertToDirent(fsDirent: fsDirentT): DirentT {
                 kind,
             );
         case DirentKind.Socket:
-            console.log("Socket");
+            // console.log("Socket");
             return new DirentOther(
                 fsDirent.name,
                 fsDirent.parentPath,
@@ -132,9 +128,9 @@ function getDirentKind(dirent: fsDirentT): DirentKind {
     return DirentKind.Undefined;
 }
 
-function printDirent(dirent: DirentT): void {
+function logDirent(dirent: DirentT): void {
     // console.log("Name: ", dirent.name);
-    // console.log("folder: ", dirent.parentPath);
-    console.log("path: ", dirent.fullPath);
-    // console.log("kind: ", dirent.kind);
+    // console.log("parent: ", dirent.parentPath);
+    console.log("fullPath: ", dirent.fullPath);
+    console.log("kind: ", DirentKind[dirent.kind]);
 }
