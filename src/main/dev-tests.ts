@@ -1,14 +1,5 @@
-import { readdir } from "./file-system";
-import { Dirent } from "../objects/Dirent";
-
-export async function runDevTests(): Promise<Dirent[]> {
+export function runDevTests(): void {
     console.log("[dev-tests] platform:", process.platform);
 
-    const myDirents: Dirent[] = (await readdir()) ?? [];
-
-    // for (const dirent of myDirents) {
-    //     console.log("[dev-tests]", dirent.name);
-    // }
-
-    return myDirents;
+    return undefined;
 }

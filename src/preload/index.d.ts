@@ -4,7 +4,7 @@ declare global {
     interface Window {
         electron: ElectronAPI;
         api: {
-            readdir: () => Promise<Dirent[]>;
+            readdir: (path?: string) => Promise<Dirent[]>;
             platform?: NodeJS.Platform;
         };
     }
