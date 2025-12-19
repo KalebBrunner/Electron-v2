@@ -7,9 +7,6 @@ const DuplicateWindow = (): void => {
     window.electron.ipcRenderer.send("window:create");
 };
 
-// const emit = defineEmits<{
-//   (e: 'EnterMainCode'): void
-// }>()
 </script>
 
 <template>
