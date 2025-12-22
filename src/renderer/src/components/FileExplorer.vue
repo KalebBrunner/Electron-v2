@@ -14,7 +14,7 @@ const platform = window.api.platform;
                 rel="noreferrer"
                 @click="$emit('GotoFrontPage')"
             >
-                Go to front page
+                Go to welcome page
             </a>
         </div>
     </div>
