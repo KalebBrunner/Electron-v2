@@ -16,17 +16,19 @@ onMounted(async () => {
 </script>
 
 <template>
-    <draggable
-        v-model="directory"
-        item-key="name"
-        class="grid"
-        ghost-class="ghost"
-        :animation="150"
-    >
-        <template #item="{ element }">
-            <div class="tile">{{ element.name }}</div>
-        </template>
-    </draggable>
+    <div class="grid-wrap">
+        <draggable
+            v-model="directory"
+            item-key="name"
+            class="grid"
+            ghost-class="ghost"
+            :animation="150"
+        >
+            <template #item="{ element }">
+                <div class="tile">{{ element.name }}</div>
+            </template>
+        </draggable>
+    </div>
 </template>
 
 <style>
@@ -53,5 +55,11 @@ onMounted(async () => {
 }
 .tile:active {
     cursor: grabbing;
+}
+
+.grid-wrap {
+    width: 800px;
+    height: 500px;
+    overflow: auto; /* shows scrollbars only when needed */
 }
 </style>
