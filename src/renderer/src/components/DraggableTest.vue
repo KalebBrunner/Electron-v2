@@ -1,25 +1,30 @@
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
 import draggable from "vuedraggable";
+import { DirectoryT, DirentKind, Folder } from "../../../../src/objects/Dirent";
 
-const tiles = ref([
-    { id: 1, label: "A" },
-    { id: 2, label: "B" },
-    { id: 3, label: "C" },
-    { id: 4, label: "D" },
-]);
+const directory = ref<DirectoryT>([]);
+
+function isFolder(value: any): value is Folder {
+    return value instanceof Folder;
+}
+
+onMounted(async () => {
+    directory.value = (await window.api.readdir()) ?? [];
+    console.log("[page2] dirents length:", directory.value.length);
+});
 </script>
 
 <template>
     <draggable
-        v-model="tiles"
-        item-key="id"
+        v-model="directory"
+        item-key="name"
         class="grid"
         ghost-class="ghost"
         :animation="150"
     >
         <template #item="{ element }">
-            <div class="tile">{{ element.label }}</div>
+            <div class="tile">{{ element.name }}</div>
         </template>
     </draggable>
 </template>
@@ -33,14 +38,16 @@ const tiles = ref([
 <style scoped>
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(autofill, 1fr);
+    gap: 0px;
 }
 .tile {
     background: #241717;
     border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 16px;
+    border-radius: 0px;
+    /* padding: 16px; */
+    padding: 0 0px 0 20px;
     cursor: grab;
     user-select: none;
 }
