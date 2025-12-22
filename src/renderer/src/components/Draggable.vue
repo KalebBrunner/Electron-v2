@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import draggable from "vuedraggable";
-import { DirectoryT, DirentKind, Folder } from "../../../../src/objects/Dirent";
+import { DirectoryT, DirentKind, Folder } from "../../../objects/Dirent";
 
 const directory = ref<DirectoryT>([]);
 

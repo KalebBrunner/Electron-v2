@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Page1 from "./components/Welcome.vue";
-import Page2 from "./components/DraggableTest.vue";
+import Page2 from "./components/FileExplorer.vue";
 
 const page = ref<"page1" | "page2">("page1");
 </script>

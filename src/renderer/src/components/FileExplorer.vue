@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DirentList from "./DirentList.vue";
+import DraggableTest from "./Draggable.vue";
 const platform = window.api.platform;
 </script>
 
@@ -18,5 +18,5 @@ const platform = window.api.platform;
             </a>
         </div>
     </div>
-    <DirentList />
+    <DraggableTest />
 </template>
