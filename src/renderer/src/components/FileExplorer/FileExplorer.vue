@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DraggableTest from "./Draggable.vue";
+import GridWrapList from "./GridWrapList.vue";
 const platform = window.api.platform;
 </script>
 
@@ -18,5 +18,5 @@ const platform = window.api.platform;
             </a>
         </div>
     </div>
-    <DraggableTest />
+    <GridWrapList />
 </template>

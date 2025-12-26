@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import draggable from "vuedraggable";
-import { DirectoryT, DirentKind, Folder } from "../../../objects/Dirent";
+import { DirectoryT } from "../../../../objects/Dirent";
 
 const directory = ref<DirectoryT>([]);
-
-function isFolder(value: any): value is Folder {
-    return value instanceof Folder;
-}
 
 onMounted(async () => {
     directory.value = (await window.api.readdir()) ?? [];

@@ -6,7 +6,6 @@ const ipcHandle = (): void => window.electron.ipcRenderer.send("ping");
 const DuplicateWindow = (): void => {
     window.electron.ipcRenderer.send("window:create");
 };
-
 </script>
 
 <template>
