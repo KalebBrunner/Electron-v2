@@ -54,8 +54,8 @@ onMounted(async () => {
 }
 
 .grid-wrap {
-    width: 800px;
-    height: 500px;
+    /* width: 800px; */
+    height: 400px;
     overflow: auto; /* shows scrollbars only when needed */
 }
 </style>

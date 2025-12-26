@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import Page1 from "./components/Welcome.vue";
-import Page2 from "./components/FileExplorer/FileExplorer.vue";
+import Welcome from "./components/Welcome.vue";
+import Dev from "./components/DevPage.vue";
 
 const page = ref<"page1" | "page2">("page1");
 </script>
 
 <template>
-    <Page1
+    <Welcome
         v-if="page === 'page1'"
         @EnterMainCode="page = 'page2'"
     />
-    <Page2
+    <Dev
         v-if="page === 'page2'"
         @GotoFrontPage="page = 'page1'"
     />
