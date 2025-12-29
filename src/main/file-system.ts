@@ -24,13 +24,13 @@ export async function readdir(path?: string): Promise<DirectoryT | undefined> {
         const fsDirectory = await fsReaddirWithTypes(path);
         return convertToDirectory(fsDirectory);
     } catch {
-        console.error("Error reading directory");
+        void console.error("Error reading directory");
         return undefined;
     }
 }
 
 function fsReaddirWithTypes(path: string): Promise<fsDirentT[]> {
-    console.log("here1");
+    void console.log("here1");
     return FsReadDir(path, {
         withFileTypes: true,
         recursive: false,
@@ -39,12 +39,11 @@ function fsReaddirWithTypes(path: string): Promise<fsDirentT[]> {
 
 function convertToDirectory(fsDirectory: fsDirentT[]): DirectoryT {
     const directory = <DirectoryT>[];
-    var count = 0;
+    count = 0;
     for (const fsdirent of fsDirectory) {
-        console.log("**************************** Count: ", ++count);
         const dirrent = convertToDirent(fsdirent);
         void logDirent(dirrent);
-        directory.push(dirrent);
+        void directory.push(dirrent);
     }
     return directory;
 }
@@ -128,9 +127,12 @@ function getDirentKind(dirent: fsDirentT): DirentKind {
     return DirentKind.Undefined;
 }
 
+var count = 0;
+
 function logDirent(dirent: DirentT): void {
     // console.log("Name: ", dirent.name);
     // console.log("parent: ", dirent.parentPath);
-    console.log("fullPath: ", dirent.fullPath);
-    console.log("kind: ", DirentKind[dirent.kind]);
+    void console.log("**************************** Count: ", ++count);
+    void console.log("fullPath: ", dirent.fullPath);
+    void console.log("kind: ", DirentKind[dirent.kind]);
 }
