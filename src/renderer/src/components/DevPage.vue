@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ExplorerWindow from "./FileExplorer/ExploreElement.vue";
+import page2 from "./Emiter/Parent.vue";
 const platform = window.api.platform;
 </script>
 
@@ -19,8 +19,8 @@ const platform = window.api.platform;
         </div>
     </div>
     <div class="row">
-        <ExplorerWindow />
-        <ExplorerWindow />
+        <page2 />
+        <!-- <page2 /> -->
     </div>
 </template>
 

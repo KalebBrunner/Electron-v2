@@ -27,13 +27,11 @@ onMounted(async () => {
     </div>
 </template>
 
-<style>
+<style scoped>
 .ghost {
     opacity: 0.4;
 }
-</style>
 
-<style scoped>
 .grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
