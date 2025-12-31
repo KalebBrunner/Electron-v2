@@ -30,7 +30,6 @@ export async function readdir(path?: string): Promise<DirectoryT | undefined> {
 }
 
 function fsReaddirWithTypes(path: string): Promise<fsDirentT[]> {
-    void console.log("here1");
     return FsReadDir(path, {
         withFileTypes: true,
         recursive: false,
@@ -42,7 +41,7 @@ function convertToDirectory(fsDirectory: fsDirentT[]): DirectoryT {
     count = 0;
     for (const fsdirent of fsDirectory) {
         const dirrent = convertToDirent(fsdirent);
-        void logDirent(dirrent);
+        // void logDirent(dirrent);
         void directory.push(dirrent);
     }
     return directory;
