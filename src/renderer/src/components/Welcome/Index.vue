@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { pageSwapTo, PageId } from "../Navigation/NavState";
 import Versions from "./Versions.vue";
-
 const ipcHandle = (): void => window.electron.ipcRenderer.send("ping");
 
 const DuplicateWindow = (): void => {
@@ -12,7 +12,7 @@ const DuplicateWindow = (): void => {
     <img
         alt="logo"
         class="logo"
-        src="../assets/electron.svg"
+        src="../../assets/electron.svg"
     />
     <div class="creator">Powered by electron-vite</div>
     <div class="text">
@@ -27,8 +27,20 @@ const DuplicateWindow = (): void => {
             <a
                 target="_blank"
                 rel="noreferrer"
-                @click="$emit('EnterMainCode')"
-                >Enter Program</a
+                @click="pageSwapTo(PageId.Welcome)"
+                >Welcome Page</a
+            >
+            <a
+                target="_blank"
+                rel="noreferrer"
+                @click="pageSwapTo(PageId.FileExplorer)"
+                >File Explorer</a
+            >
+            <a
+                target="_blank"
+                rel="noreferrer"
+                @click="pageSwapTo(PageId.Emitter)"
+                >Emitter</a
             >
         </div>
     </div>
