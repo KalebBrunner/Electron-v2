@@ -8,6 +8,7 @@ import {
 import Welcome from "./components/Welcome/Index.vue";
 import Emitter from "./components/Emiter/Parent.vue";
 import FileExplorer from "./components/FileExplorer/ExploreElement.vue";
+import MonadA from "./components/Monoids/MonadA.vue";
 </script>
 
 <template>
@@ -33,12 +34,19 @@ import FileExplorer from "./components/FileExplorer/ExploreElement.vue";
                     @click="pageSwapTo(PageId.Emitter)"
                     >Emitter</a
                 >
+                <a
+                    target="_blank"
+                    rel="noreferrer"
+                    @click="pageSwapTo(PageId.MonadA)"
+                    >Monad</a
+                >
             </div>
         </div>
 
         <div class="page">
             <Emitter v-if="currentPage === PageId.Emitter" />
             <FileExplorer v-if="currentPage === PageId.FileExplorer" />
+            <MonadA v-if="currentPage === PageId.MonadA" />
         </div>
     </div>
 </template>

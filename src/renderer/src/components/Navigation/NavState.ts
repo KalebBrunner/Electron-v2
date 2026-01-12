@@ -5,6 +5,7 @@ export enum PageId {
     Welcome,
     Emitter,
     FileExplorer,
+    MonadA,
 }
 
 export const currentPage = ref<PageId>(PageId.Welcome);

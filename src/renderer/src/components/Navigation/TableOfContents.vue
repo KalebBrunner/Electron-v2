@@ -26,4 +26,10 @@ import { PageId, pageSwapTo } from "./NavState";
         @click="pageSwapTo(PageId.Emitter)"
         >Go to Table of Contents</a
     >
+    <a
+        target="_blank"
+        rel="noreferrer"
+        @click="pageSwapTo(PageId.MonadA)"
+        >Go to Table of Contents</a
+    >
 </template>

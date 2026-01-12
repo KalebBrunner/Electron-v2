@@ -42,6 +42,12 @@ const DuplicateWindow = (): void => {
                 @click="pageSwapTo(PageId.Emitter)"
                 >Emitter</a
             >
+            <a
+                target="_blank"
+                rel="noreferrer"
+                @click="pageSwapTo(PageId.MonadA)"
+                >Monad</a
+            >
         </div>
     </div>
     <div class="actions">
