@@ -1,15 +1,16 @@
 import { ref } from "vue";
 
-export enum PageId {
+export enum PageName {
     TableOfContents,
     Welcome,
     Emitter,
     FileExplorer,
     MonadA,
+    Pinia,
 }
 
-export const currentPage = ref<PageId>(PageId.Welcome);
+export const currentPage = ref<PageName>(PageName.Welcome);
 
-export function pageSwapTo(page: PageId) {
+export function pageSwapTo(page: PageName) {
     currentPage.value = page;
 }

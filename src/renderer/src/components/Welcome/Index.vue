@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { pageSwapTo, PageId } from "../Navigation/NavState";
+import PageSwapDirectory from "../Navigation/PageSwapDirectory.vue";
 import Versions from "./Versions.vue";
 const ipcHandle = (): void => window.electron.ipcRenderer.send("ping");
 
@@ -23,32 +23,7 @@ const DuplicateWindow = (): void => {
     </div>
     <p class="tip">Please try pressing <code>F12</code> to open the devTool</p>
     <div class="actions">
-        <div class="action">
-            <a
-                target="_blank"
-                rel="noreferrer"
-                @click="pageSwapTo(PageId.Welcome)"
-                >Welcome Page</a
-            >
-            <a
-                target="_blank"
-                rel="noreferrer"
-                @click="pageSwapTo(PageId.FileExplorer)"
-                >File Explorer</a
-            >
-            <a
-                target="_blank"
-                rel="noreferrer"
-                @click="pageSwapTo(PageId.Emitter)"
-                >Emitter</a
-            >
-            <a
-                target="_blank"
-                rel="noreferrer"
-                @click="pageSwapTo(PageId.MonadA)"
-                >Monad</a
-            >
-        </div>
+        <PageSwapDirectory />
     </div>
     <div class="actions">
         <div class="action">
