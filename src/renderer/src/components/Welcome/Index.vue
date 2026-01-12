@@ -6,6 +6,9 @@ const ipcHandle = (): void => window.electron.ipcRenderer.send("ping");
 const DuplicateWindow = (): void => {
     window.electron.ipcRenderer.send("window:create");
 };
+
+import { useCounterStore } from "../Pinia/Store";
+const store = useCounterStore();
 </script>
 
 <template>
@@ -22,6 +25,7 @@ const DuplicateWindow = (): void => {
         <span class="ts">TypeScript</span>
     </div>
     <p class="tip">Please try pressing <code>F12</code> to open the devTool</p>
+    <p class="tip">{{ store.name }}, {{ store.count }}</p>
     <div class="actions">
         <PageSwapDirectory />
     </div>
