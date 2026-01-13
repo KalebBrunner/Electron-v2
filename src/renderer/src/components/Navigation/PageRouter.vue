@@ -7,7 +7,7 @@ import FileExplorer from "../FileExplorer/ExploreElement.vue";
 import MonadA from "../Monoids/MonadA.vue";
 import Pinia from "../Pinia/Index.vue";
 import Navbar from "./Navbar.vue";
-import Desmos from "../Desmos/Init.vue";
+import Desmos from "../Desmos/PendulumWithCanvas.vue";
 </script>
 <template>
     <Welcome v-if="currentPage === PageName.Welcome" />
