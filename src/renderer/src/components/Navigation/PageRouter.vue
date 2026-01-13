@@ -7,6 +7,7 @@ import FileExplorer from "../FileExplorer/ExploreElement.vue";
 import MonadA from "../Monoids/MonadA.vue";
 import Pinia from "../Pinia/Index.vue";
 import Navbar from "./Navbar.vue";
+import Desmos from "../Desmos/Init.vue";
 </script>
 <template>
     <Welcome v-if="currentPage === PageName.Welcome" />
@@ -17,6 +18,7 @@ import Navbar from "./Navbar.vue";
             <FileExplorer v-if="currentPage === PageName.FileExplorer" />
             <MonadA v-if="currentPage === PageName.MonadA" />
             <Pinia v-if="currentPage === PageName.Pinia" />
+            <Desmos v-if="currentPage === PageName.Desmos" />
         </div>
     </div>
 </template>

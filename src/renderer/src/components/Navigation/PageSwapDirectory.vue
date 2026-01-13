@@ -33,5 +33,11 @@ import { PageName, pageSwapTo } from "./NavigationTools";
             @click="pageSwapTo(PageName.Pinia)"
             >Pinia</a
         >
+        <a
+            target="_blank"
+            rel="noreferrer"
+            @click="pageSwapTo(PageName.Desmos)"
+            >Desmos</a
+        >
     </div>
 </template>
