@@ -22,7 +22,7 @@ function SafeDiv(a: number, b: number): maybeNumber {
  *
  **/
 interface Expression {
-    evaluate(): number | null;
+    evaluate(): number;
 }
 
 /**
@@ -81,3 +81,5 @@ console.log(maybeString);
 function transform<U>(x: U): Maybe<U> {
     return () => x;
 }
+
+type TaggedUnion = { val: any; tag: string };
