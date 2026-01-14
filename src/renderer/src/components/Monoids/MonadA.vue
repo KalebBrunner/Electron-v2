@@ -1,47 +1,14 @@
 <script setup lang="ts">
-import { abs } from "mathjs";
+import { Divide, Value } from "./Expressions";
 
-console.log("This is not a monad");
+const expr1 = new Divide(new Value(12), new Value(3));
 
-function isMathError(number: number): boolean {
-    if (abs(number) == Infinity || Number.isNaN(number)) {
-        return true;
-    } else return false;
-}
+const myExpression = new Divide(new Value(3), new Value(1));
 
-type maybeNumber = number | null;
-
-// class maybeMonad {
-//     constructor(maybeNum: )
-// }
-
-function divide(a: number, b: number): maybeNumber {
-    const c = a / b;
-    if (isMathError(c)) {
-        console.log(c);
-        return null;
-    } else {
-        return c;
-    }
-}
-
-console.log(divide(0, 0));
-
-class box {
-    x: number;
-
-    constructor(
-        x: number,
-        public y: number = 0,
-    ) {
-        this.x = x;
-    }
-}
-
-const mybox = new box(1, 2);
+myExpression.evaluate();
 </script>
 
 <template>
     <div>This is the monad page</div>
-    <div>{{ mybox }}</div>
+    <div>{{ myExpression.evaluate() }}</div>
 </template>
