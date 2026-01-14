@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from "vue";
-import { createCalculator, DesmosCalculator } from "./DesmosFunctions";
+import { makeDesmosInstance } from "./DesmosFunctions";
 
+const MyGraph = makeDesmosInstance();
 const containerRef = ref<HTMLElement | null>(null);
-let myCalculator: DesmosCalculator | null = null;
 
 onMounted(() => {
-    const element = containerRef.value;
-    if (!element) return;
-    myCalculator = createCalculator(element);
+    const el = containerRef.value;
+    if (!el) return;
+    MyGraph.mount(el);
 });
 
 onBeforeUnmount(() => {
-    myCalculator?.destroy();
+    MyGraph.unmount();
 });
 </script>
 

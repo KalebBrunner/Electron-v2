@@ -25,3 +25,27 @@ export function createCalculator(
 ): DesmosCalculator {
     return getDesmos().GraphingCalculator(element, options);
 }
+
+export type DesmosInstance = {
+    mount: (el: HTMLElement) => void;
+    unmount: () => void;
+    get: () => DesmosCalculator | null;
+};
+
+export function makeDesmosInstance(): DesmosInstance {
+    let calc: DesmosCalculator | null = null;
+
+    return {
+        mount(el) {
+            calc?.destroy();
+            calc = createCalculator(el);
+        },
+        unmount() {
+            calc?.destroy();
+            calc = null;
+        },
+        get() {
+            return calc;
+        },
+    };
+}
