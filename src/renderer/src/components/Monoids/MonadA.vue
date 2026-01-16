@@ -1,36 +1,5 @@
 <script setup lang="ts">
-class ErrorMessage {
-    public constructor(
-        public SummaryMessage: string,
-        public ExpectedType?: string,
-    ) {}
-}
-
-type Maybe<T> = T | ErrorMessage;
-
-function Bind<ArgumentList extends unknown[], ResultType>(
-    f: (...args: ArgumentList) => ResultType,
-) {
-    return (
-        ...m_args: { [K in keyof ArgumentList]: Maybe<ArgumentList[K]> }
-    ): Maybe<ResultType> => {
-        // if any argument is null => result is null
-        if (
-            m_args.some((x) => {
-                // console.log(isError(x));
-                return isError(x);
-            })
-        )
-            return new ErrorMessage("err");
-
-        // unwrap and call f
-        return f(...(m_args as ArgumentList));
-    };
-}
-
-function isError(value: any): value is ErrorMessage {
-    return value instanceof ErrorMessage;
-}
+import { Bind2 } from "./BindRefactor";
 
 function SafeDiv(a: number, b: number): Maybe<number> {
     if (b == 0) {
@@ -46,9 +15,10 @@ function add(a: number, b: number): number {
 
 // add(SafeDiv(3, 1), 3);
 
-const c = Bind(add)(SafeDiv(3, 0), 3);
+const c = Bind2(add)(Bind2(add)(SafeDiv(3, 6), 3), 5);
 
 console.log(c);
+console.log(3 / 6 + 3 + 5);
 </script>
 
 <template>

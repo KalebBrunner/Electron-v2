@@ -21,6 +21,8 @@ function Bind<ArgumentList extends unknown[], ResultType>(
     };
 }
 
+type AnyFunction<x extends unknown[], y> = (...args: x[]) => y;
+
 function SafeDiv(a: number, b: number): Maybe<number> {
     if (b == 0) {
         return new ErrorMessage("div by zero");
