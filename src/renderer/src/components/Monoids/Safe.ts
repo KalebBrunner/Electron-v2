@@ -1,4 +1,3 @@
-<script setup lang="ts">
 class ErrorMessage {
     public constructor(
         public SummaryMessage: string,
@@ -15,21 +14,11 @@ function Bind<ArgumentList extends unknown[], ResultType>(
         ...m_args: { [K in keyof ArgumentList]: Maybe<ArgumentList[K]> }
     ): Maybe<ResultType> => {
         // if any argument is null => result is null
-        if (
-            m_args.some((x) => {
-                // console.log(isError(x));
-                return isError(x);
-            })
-        )
-            return new ErrorMessage("err");
+        if (m_args.some((x) => isError(x))) return new ErrorMessage("err");
 
         // unwrap and call f
         return f(...(m_args as ArgumentList));
     };
-}
-
-function isError(value: any): value is ErrorMessage {
-    return value instanceof ErrorMessage;
 }
 
 function SafeDiv(a: number, b: number): Maybe<number> {
@@ -46,11 +35,17 @@ function add(a: number, b: number): number {
 
 // add(SafeDiv(3, 1), 3);
 
-const c = Bind(add)(SafeDiv(3, 0), 3);
+const c = Bind(add)(1, 2);
 
 console.log(c);
-</script>
 
-<template>
-    <div>This is the monad page</div>
-</template>
+function isError(value: any): value is ErrorMessage {
+    return value instanceof ErrorMessage;
+}
+
+// function IsNumber(value: any): value is number {
+//     return typeof value === "number";
+// }
+
+// const a: Maybe<number> = 3;
+// const z: Maybe<number> = new ErrorMessage("err", "Maybe<Number>");
