@@ -3,28 +3,20 @@ import PageSwapDirectory from "./PageSwapDirectory.vue";
 </script>
 
 <template>
-    <div class="navbar">
-        <PageSwapDirectory />
-    </div>
+    <header class="sticky-top border-bottom shadow-sm bg-body-tertiary">
+        <nav class="navbar navbar-expand">
+            <div class="container-fluid d-flex align-items-center">
+                <!-- Left: Brand -->
+                <span class="navbar-brand mb-0 h6"> The Lab </span>
+
+                <!-- Center: Nav -->
+                <div class="mx-auto">
+                    <PageSwapDirectory />
+                </div>
+
+                <!-- Right spacer: keeps the center actually centered -->
+                <div style="width: 110px"></div>
+            </div>
+        </nav>
+    </header>
 </template>
-
-<style scoped>
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
-
-    /* center items */
-    display: flex;
-    justify-content: center;
-
-    /* give it a real bar height so it’s predictable */
-    padding: 0px 0;
-
-    /* optional but helps readability if content scrolls underneath */
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(6px);
-}
-</style>

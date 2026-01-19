@@ -9,22 +9,24 @@ import Pinia from "../Pinia/Index.vue";
 import Navbar from "./Navbar.vue";
 import Desmos from "../Desmos/Canvas2.vue";
 </script>
+
 <template>
+    <!-- Welcome page: NO navbar -->
     <Welcome v-if="currentPage === PageName.Welcome" />
-    <div v-else>
+
+    <!-- All other pages: header + content -->
+    <div
+        v-else
+        class="min-vh-100 d-flex flex-column"
+    >
         <Navbar />
-        <div class="HasNavbar">
+
+        <main class="flex-grow-1">
             <Emitter v-if="currentPage === PageName.Emitter" />
             <FileExplorer v-if="currentPage === PageName.FileExplorer" />
             <MonadA v-if="currentPage === PageName.MonadA" />
             <Pinia v-if="currentPage === PageName.Pinia" />
             <Desmos v-if="currentPage === PageName.Desmos" />
-        </div>
+        </main>
     </div>
 </template>
-
-<style scoped>
-.HasNavbar {
-    padding-top: 64px; /* adjust to match toc-nav height (padding + link height) */
-}
-</style>
