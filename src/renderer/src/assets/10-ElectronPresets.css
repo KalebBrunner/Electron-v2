@@ -3,7 +3,7 @@ body {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background-image: url("./WelcomePage/wavy-lines.svg");
+    background-image: url("./art/wavy-lines.svg");
     background-size: cover;
     user-select: none;
 }

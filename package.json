@@ -23,6 +23,7 @@
     "dependencies": {
         "@electron-toolkit/preload": "^3.0.2",
         "@electron-toolkit/utils": "^4.0.0",
+        "bootstrap": "^5.3.8",
         "electron-updater": "^6.3.9",
         "mathjs": "^15.1.0",
         "pinia": "^3.0.4",

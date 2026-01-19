@@ -15,7 +15,7 @@ const store = useCounterStore();
     <img
         alt="logo"
         class="logo"
-        src="../../assets/WelcomePage/electron.svg"
+        src="../../assets/art/electron.svg"
     />
     <div class="creator">Powered by electron-vite</div>
     <div class="text">
