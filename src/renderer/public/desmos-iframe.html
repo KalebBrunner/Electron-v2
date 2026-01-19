@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+        />
+
+        <meta
+            http-equiv="Content-Security-Policy"
+            content="
+        default-src 'self';
+        script-src 'self' https://www.desmos.com 'unsafe-eval';
+        script-src-elem 'self' https://www.desmos.com 'unsafe-eval';
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data: https:;
+        connect-src 'self' https:;
+        worker-src 'self' blob:;
+        font-src 'self' data:;
+      "
+        />
+
+        <style>
+            html,
+            body {
+                margin: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+            }
+            #calculator {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+
+        <!-- Desmos API -->
+        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=26f57a8bc1224db7a05dfca6dd0093b3"></script>
+
+        <!-- Your local desmos host script -->
+        <script
+            src="./desmos-iframe.ts"
+            defer
+        ></script>
+    </head>
+
+    <body>
+        <div id="calculator"></div>
+    </body>
+</html>

@@ -7,7 +7,7 @@ import FileExplorer from "../FileExplorer/ExploreElement.vue";
 import MonadA from "../Monoids/MonadA.vue";
 import Pinia from "../Pinia/Index.vue";
 import Navbar from "./Navbar.vue";
-import Desmos from "../Desmos/Canvas2.vue";
+import Desmos from "../Desmos/DesmosCanvas.vue";
 </script>
 
 <template>
@@ -21,12 +21,20 @@ import Desmos from "../Desmos/Canvas2.vue";
     >
         <Navbar />
 
-        <main class="flex-grow-1">
+        <main
+            class="flex-grow-1 d-flex"
+            style="min-height: 0"
+        >
             <Emitter v-if="currentPage === PageName.Emitter" />
             <FileExplorer v-if="currentPage === PageName.FileExplorer" />
             <MonadA v-if="currentPage === PageName.MonadA" />
             <Pinia v-if="currentPage === PageName.Pinia" />
-            <Desmos v-if="currentPage === PageName.Desmos" />
+
+            <!-- Desmos should take the full available space -->
+            <Desmos
+                v-if="currentPage === PageName.Desmos"
+                class="flex-grow-1"
+            />
         </main>
     </div>
 </template>

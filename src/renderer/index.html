@@ -9,7 +9,17 @@
         <title>Electron</title>
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+            content="
+    default-src 'self';
+    script-src 'self' https://www.desmos.com;
+    script-src-elem 'self' https://www.desmos.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.desmos.com;
+    style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.desmos.com;
+    font-src 'self' data: https://fonts.gstatic.com https://www.desmos.com;
+    img-src 'self' data: https:;
+    connect-src 'self' https:;
+    worker-src 'self' blob:
+  "
         />
     </head>
 
