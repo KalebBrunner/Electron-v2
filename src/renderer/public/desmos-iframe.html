@@ -15,53 +15,15 @@
                 height: 100%;
             }
         </style>
-
-        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=26f57a8bc1224db7a05dfca6dd0093b3"></script>
     </head>
 
     <body>
         <div id="calc"></div>
+        <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=26f57a8bc1224db7a05dfca6dd0093b3"></script>
 
-        <script>
-            // after the script loads:
-            const elt = document.getElementById("calc");
-
-            // You create the instance here
-            const calculator = Desmos.GraphingCalculator(elt, {
-                expressions: true,
-                settingsMenu: true,
-            });
-
-            // Expose for debugging inside the iframe devtools
-            window.Desmos = Desmos;
-            window.calculator = calculator;
-
-            // Parent -> child commands
-            window.addEventListener("message", (event) => {
-                const msg = event.data;
-                if (!msg || typeof msg !== "object") return;
-
-                if (msg.kind === "DESMOS_SET_LINE") {
-                    // naive “line insert” method: rebuild order
-                    const list = calculator.getExpressions();
-                    const newExpr = { id: "fx", latex: msg.latex };
-
-                    list.splice(msg.index ?? 0, 0, newExpr);
-
-                    calculator.setBlank();
-                    calculator.setExpressions(list);
-
-                    event.source?.postMessage({ kind: "OK" }, "*");
-                }
-
-                if (msg.kind === "DESMOS_SETTINGS") {
-                    calculator.updateSettings(msg.settings);
-                    event.source?.postMessage({ kind: "OK" }, "*");
-                }
-            });
-
-            // Child -> parent handshake
-            window.parent.postMessage({ kind: "DESMOS_READY" }, "*");
-        </script>
+        <script
+            type="module"
+            src="../src/components/Desmos/host/iframe-logic.ts"
+        ></script>
     </body>
 </html>

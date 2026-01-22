@@ -7,7 +7,7 @@ import FileExplorer from "../FileExplorer/ExploreElement.vue";
 import MonadA from "../Monoids/MonadA.vue";
 import Pinia from "../Pinia/Index.vue";
 import Navbar from "./Navbar.vue";
-import Desmos from "../Desmos/DesmosCanvas.vue";
+import Desmos from "../Desmos/ProjectA.vue";
 </script>
 
 <template>
@@ -32,7 +32,7 @@ import Desmos from "../Desmos/DesmosCanvas.vue";
 
             <!-- Desmos should take the full available space -->
             <Desmos
-                v-if="currentPage === PageName.Desmos"
+                v-if="currentPage === PageName.DesmosPg"
                 class="flex-grow-1"
             />
         </main>

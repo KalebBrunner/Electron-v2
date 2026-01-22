@@ -1,22 +1,44 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-const frame = ref<HTMLIFrameElement | null>(null);
-
-// This should point to a page you control (ex: /desmos-child.html)
 const src = "../../../public/desmos-iframe.html";
 
-function onLoad() {
-    console.log("child loaded");
+import { ref, watch } from "vue";
+import { createDesmosBridge, DesmosBridge } from "./bridge/desmosBridge";
+
+const props = defineProps<{
+    graph: GraphConfig;
+}>();
+
+const frame = ref<HTMLIFrameElement | null>(null);
+const bridge = ref<DesmosBridge | null>(null);
+
+function applyGraphConfig() {
+    if (!bridge.value) return;
+
+    // settings first
+    if (props.graph.settings) {
+        bridge.value.setSettings(props.graph.settings);
+    }
+
+    // then expressions
+    if (props.graph.expressions) {
+        for (const expr of props.graph.expressions) {
+            bridge.value.setExpression(expr);
+        }
+    }
 }
 
-// Example: “put f(x)=x on line 3”
-function setLine3() {
-    frame.value?.contentWindow?.postMessage(
-        { kind: "DESMOS_SET_LINE", index: 2, latex: "f(x)=x" },
-        "*",
-    );
+function onLoad() {
+    if (!frame.value) return;
+    bridge.value = createDesmosBridge(frame.value);
+    applyGraphConfig();
 }
+
+// If parent changes graph data later, re-apply
+watch(
+    () => props.graph,
+    () => applyGraphConfig(),
+    { deep: true },
+);
 </script>
 <template>
     <div class="desmos-stage">

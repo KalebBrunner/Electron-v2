@@ -7,7 +7,7 @@ export enum PageName {
     FileExplorer,
     MonadA,
     Pinia,
-    Desmos,
+    DesmosPg,
 }
 
 export const currentPage = ref<PageName>(PageName.Welcome);
