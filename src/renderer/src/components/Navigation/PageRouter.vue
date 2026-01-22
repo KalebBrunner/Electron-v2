@@ -22,7 +22,7 @@ import Desmos from "../Desmos/ProjectA.vue";
         <Navbar />
 
         <main
-            class="flex-grow-1 d-flex"
+            class="flex-grow-1 d-flex flex-column"
             style="min-height: 0"
         >
             <Emitter v-if="currentPage === PageName.Emitter" />

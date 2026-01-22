@@ -6,8 +6,10 @@ const elt = document.getElementById("calc");
 if (!elt) throw new Error("Missing #calc element");
 
 const calculator: GraphingCalc = Desmos.GraphingCalculator(elt, {
-    expressions: true,
-    settingsMenu: true,
+    expressions: false,
+    settingsMenu: false,
+    zoomButtons: false,
+    autosize: true,
 });
 
 window.calculator = calculator;
@@ -21,6 +23,7 @@ window.addEventListener("message", (event: MessageEvent<ParentToChild>) => {
 
     if (msg.kind === "SET_EXPR") {
         calculator.setExpression(msg.expr);
+        calculator.resize();
     }
 
     if (msg.kind === "SET_SETTINGS") {

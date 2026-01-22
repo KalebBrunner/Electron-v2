@@ -48,8 +48,12 @@ watch(() => props.graph, applyGraphConfig, { deep: true });
 
 <style scoped>
 .desmos-canvas {
-    width: 100%;
-    height: 100%;
+    display: flex;
+    /* width: 100%; */
+    /* height: 100%; */
+    flex: 1 1 auto;
+    min-height: 0;
+
     border-radius: 16px;
     overflow: hidden;
     background: #111;
@@ -57,8 +61,10 @@ watch(() => props.graph, applyGraphConfig, { deep: true });
 }
 
 .frame {
-    width: 100%;
-    height: 100%;
-    border: none;
+    flex: 1 1 auto;
+    /* display: block; */
+    /* width: 100%; */
+    /* height: 100%; */
+    /* border: none; */
 }
 </style>
