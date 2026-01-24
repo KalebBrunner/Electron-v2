@@ -10,7 +10,7 @@ export enum PageName {
     DesmosPg,
 }
 
-export const currentPage = ref<PageName>(PageName.Welcome);
+export const currentPage = ref<PageName>(PageName.DesmosPg);
 
 export function pageSwapTo(page: PageName) {
     currentPage.value = page;

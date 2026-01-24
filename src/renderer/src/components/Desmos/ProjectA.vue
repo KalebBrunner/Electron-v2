@@ -1,46 +1,40 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import DesmosCanvas from "./DesmosCanvas.vue";
 
-const graphA: GraphConfig = {
-    settings: {},
-    expressions: [{ id: "fx", latex: "f(x)=x" }],
-};
+const graphA = ref<InstanceType<typeof DesmosCanvas> | null>(null);
+const graphB = ref<InstanceType<typeof DesmosCanvas> | null>(null);
+const graphC = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 
-const graphB: GraphConfig = {
-    settings: { degreeMode: false },
-    expressions: [{ id: "gx", latex: "g(x)=x^2" }],
-};
+function doThing() {
+    graphA.value?.setExpression({ id: "fxx", latex: "f(x)=xx" });
+    graphB.value?.setExpression({ id: "fxx", latex: "f(x)=xxx" });
+    graphC.value?.setExpression({ id: "fxx", latex: "\\frac{x}{4}\\cos(20x)" });
+}
 </script>
 
 <template>
     <main class="page">
-        <!-- TOP STRIP -->
-        <div class="topStrip">
+        <button @click="doThing">Press Me</button>
+
+        <div class="upperRow">
             <DesmosCanvas
                 class="square"
-                :graph="graphA"
+                ref="graphA"
             />
             <DesmosCanvas
                 class="fill"
-                :graph="graphA"
+                ref="graphB"
             />
         </div>
-
-        <!-- MAIN FILL -->
-        <div class="mainFill">
-            <DesmosCanvas :graph="graphB" />
-            <!-- <p>hello this is text</p>
-            <p>hello this is text</p>
-
-            <p>hello this is text</p> -->
+        <div class="fillRow">
+            <DesmosCanvas ref="graphC" />
         </div>
     </main>
 </template>
 
 <style scoped>
 .page {
-    /* height: 100%; */
-    /* width: 100%; */
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -49,27 +43,26 @@ const graphB: GraphConfig = {
     min-height: 0;
 }
 
-.topStrip {
+.upperRow {
     display: flex;
     gap: 20px;
     padding: 12px;
-    height: 220px; /* IMPORTANT: needs a height so the square knows its size */
+    height: 350px;
     min-height: 0;
 }
 
-.topStrip .square {
+.upperRow .square {
     height: 100%;
-    aspect-ratio: 1 / 1; /* ✅ makes it a square */
-    flex: 0 0 auto; /* don’t stretch */
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
 }
 
-.topStrip .fill {
-    flex: 1 1 0; /* ✅ take remaining space */
-    min-width: 0; /* ✅ prevents overflow in flex layouts */
+.upperRow .fill {
+    flex: 1 1 0;
+    min-width: 0;
 }
 
-.mainFill {
-    /* flex-direction: column; */
+.fillRow {
     flex: 1 1 auto;
     min-height: 0;
     display: flex;
