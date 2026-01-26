@@ -1,51 +1,67 @@
 <script setup lang="ts">
-import { Ref, ref, watch } from "vue";
+import { computed, Ref, ref, watch } from "vue";
 import DesmosCanvas from "./DesmosCanvas.vue";
 import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
-import { bindExprToRef, bindRefToExpr } from "./DesmosUtilities";
-import { exp } from "mathjs";
+import { bindExprToRef, bindRefToExpr, ListsToPoints } from "./DesmosUtilities";
 
 // const graphA = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 // const graphB = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 const graphC = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 
-type Point = { x: number; y: number };
-
 // // 👇 this is the live-updating array you want
 // const points = ref<Point[]>([]);
-const X = ref<number>(0);
-const Y = ref<number>(0);
+const sigma_1 = ref<number[]>([]);
+const omega_1 = ref<number[]>([]);
+const omega_2 = computed(() => omega_1.value.map((n) => -n));
 const Z = ref<number>(0);
+const points = ListsToPoints(sigma_1, omega_1);
 
 function doThing() {
     const c = graphC.value?.getCalculator();
     if (!c) return;
 
     c.setExpressions([
-        { id: "X", type: "expression", latex: "X = -3" },
-        { id: "Y", type: "expression", latex: "Y = -3" },
-
         {
-            id: "P",
-            type: "expression",
-            latex: "P = (X, Y)",
+            type: "table",
+            columns: [
+                {
+                    latex: "\\sigma_1",
+                    values: ["1", "2"],
+                },
+                {
+                    latex: "\\omega_1",
+                    values: ["1", "4"],
+                    dragMode: "XY",
+                },
+            ],
         },
         {
-            id: "Z",
-            type: "expression",
-            latex: "Z=0",
+            type: "table",
+            columns: [
+                {
+                    latex: "\\sigma_2",
+                    values: ["1", "2"],
+                },
+                {
+                    latex: "\\omega_2",
+                    values: ["-1", "-4"],
+                    dragMode: "XY",
+                },
+            ],
         },
     ]);
 
-    bindRefToExpr(c, "X", X);
-    bindRefToExpr(c, "Y", Y);
-    bindExprToRef(c, "Z", Y);
+    bindRefToExpr(c, "\\sigma_1", sigma_1);
+    bindRefToExpr(c, "\\omega_1", omega_1);
+
+    bindExprToRef(c, "\\sigma_2", sigma_1);
+    bindExprToRef(c, "\\omega_2", omega_2);
 }
 </script>
 
 <template>
     <main class="page">
-        <div>({{ X }}, {{ Y }}) Z = {{ Z }}</div>
+        <div>{{ points }} Z = {{ Z }}</div>
         <button @click="doThing">Press Me</button>
 
         <!-- <div class="upperRow">
