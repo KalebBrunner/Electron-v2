@@ -1,48 +1,28 @@
 <script setup lang="ts">
-import { onMounted, PropType, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useDesmosStore } from "./CanvasPool";
 
-const props = defineProps({
-    config: {
-        type: Object as PropType<Desmos.GraphConfiguration>,
-        required: true,
-    },
-    settings: {
-        type: Object as PropType<Desmos.GraphSettings>,
-        required: true,
-    },
-});
-
 const CanvasDiv = ref<HTMLDivElement | null>(null);
-const calculator = ref<Desmos.Calculator | undefined>(undefined);
 const store = useDesmosStore();
+const calculator = ref<Desmos.Calculator | undefined>(undefined);
 
-onMounted(() => {
-    const iframe = store.getIframe();
+const props = defineProps<{
+    config: any;
+    settings: any;
+}>();
+
+onMounted(async () => {
     if (!CanvasDiv.value) {
         console.log("[DesmosCanvas] ERROR: CanvasDiv missing");
         return;
     }
-    CanvasDiv.value.appendChild(iframe);
-    iframe.addEventListener(
-        "load",
-        () => {
-            console.log("[DesmosCanvas] iframe load event fired");
-            calculator.value = iframe.contentWindow?.createCalc(
-                props.config,
-                props.settings,
-            );
-        },
-        { once: true },
+
+    const iframe = await store.mountInto(CanvasDiv.value);
+
+    calculator.value = iframe.contentWindow?.createCalc(
+        props.config,
+        props.settings,
     );
-});
-
-function setExpression(expr) {
-    calculator.value?.setExpression(expr);
-}
-
-defineExpose({
-    setExpression,
 });
 </script>
 
@@ -50,14 +30,7 @@ defineExpose({
     <div
         ref="CanvasDiv"
         class="desmos-canvas"
-    >
-        <!-- <iframe
-            ref="frame"
-            class="frame"
-            src="/desmos-iframe.html"
-            @load="onload"
-        ></iframe> -->
-    </div>
+    ></div>
 </template>
 
 <style scoped>

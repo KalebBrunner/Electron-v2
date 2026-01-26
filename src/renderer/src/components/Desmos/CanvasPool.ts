@@ -1,18 +1,21 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+
 export const useDesmosStore = defineStore("Graphs", () => {
     const iframe = ref<HTMLIFrameElement | null>(null);
 
-    function log() {
-        console.log("Desmos Pool log");
+    async function mountInto(target: HTMLElement) {
+        const frame = getIframe();
+        void target.appendChild(frame);
+        void (await waitForCreateCalc(frame));
+        void console.log("[DesmosStore] iframe ready in target");
+        return frame;
     }
 
     function getIframe() {
-        console.log("Getting iframe");
-
         if (!iframe.value) {
             const frame = document.createElement("iframe");
-            frame.style.flex = "flex: 1 1 auto;";
+            frame.style.flex = "1 1 auto";
             frame.style.width = "100%";
             frame.style.height = "100%";
             frame.style.border = "0";
@@ -22,5 +25,20 @@ export const useDesmosStore = defineStore("Graphs", () => {
         return iframe.value;
     }
 
-    return { log, getIframe };
+    function waitForCreateCalc(frame: HTMLIFrameElement) {
+        return new Promise<void>((resolve) => {
+            const check = () => {
+                const fn = frame.contentWindow?.createCalc;
+                if (typeof fn === "function") {
+                    resolve();
+                    return;
+                }
+                requestAnimationFrame(check);
+            };
+
+            check();
+        });
+    }
+
+    return { mountInto };
 });
