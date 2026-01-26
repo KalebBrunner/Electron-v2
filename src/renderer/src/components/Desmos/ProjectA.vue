@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DesmosCanvas from "./DesmosCanvas.vue";
+import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
 
 const graphA = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 const graphB = ref<InstanceType<typeof DesmosCanvas> | null>(null);
@@ -21,14 +22,22 @@ function doThing() {
             <DesmosCanvas
                 class="square"
                 ref="graphA"
+                :config="myGraphCongif"
+                :settings="myGraphSettings"
             />
             <DesmosCanvas
                 class="fill"
                 ref="graphB"
+                :config="myGraphCongif"
+                :settings="myGraphSettings"
             />
         </div>
         <div class="fillRow">
-            <DesmosCanvas ref="graphC" />
+            <DesmosCanvas
+                ref="graphC"
+                :config="myGraphCongif"
+                :settings="myGraphSettings"
+            />
         </div>
     </main>
 </template>

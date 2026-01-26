@@ -1,14 +1,24 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
+import { PropType, ref } from "vue";
+
+const props = defineProps({
+    config: {
+        type: Object as PropType<Desmos.GraphConfiguration>,
+        required: true,
+    },
+    settings: {
+        type: Object as PropType<Desmos.GraphSettings>,
+        required: true,
+    },
+});
 
 const frame = ref<HTMLIFrameElement | null>(null);
 const calculator = ref<Desmos.Calculator | undefined>(undefined);
 
 function onload() {
     calculator.value = frame.value?.contentWindow?.createCalc(
-        myGraphCongif,
-        myGraphSettings,
+        props.config,
+        props.settings,
     );
 
     if (calculator.value == undefined) {
@@ -32,7 +42,7 @@ defineExpose({
             class="frame"
             src="/desmos-iframe.html"
             @load="onload"
-        />
+        ></iframe>
     </div>
 </template>
 
