@@ -1,42 +1,30 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
 
 export const useDesmosStore = defineStore("Graphs", () => {
-    const iframe = ref<HTMLIFrameElement | null>(null);
-
-    async function mountInto(target: HTMLElement) {
-        const frame = getIframe();
-        void target.appendChild(frame);
-        void (await waitForCreateCalc(frame));
+    async function mountInto(target: HTMLDivElement) {
+        const iframe = createIframe();
+        void target.appendChild(iframe);
+        void (await waitForCreateCalc(iframe));
         void console.log("[DesmosStore] iframe ready in target");
-        return frame;
+        return iframe;
     }
 
-    function getIframe() {
-        if (!iframe.value) {
-            const frame = document.createElement("iframe");
-            frame.style.flex = "1 1 auto";
-            frame.style.width = "100%";
-            frame.style.height = "100%";
-            frame.style.border = "0";
-            frame.src = "/desmos-iframe.html";
-            iframe.value = frame;
+    function createIframe(): HTMLIFrameElement {
+        const iframe = document.createElement("iframe");
+        iframe.style.flex = "1 1 auto";
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "0";
+        iframe.src = "/desmos-iframe.html";
+        return iframe;
+    }
+
+    async function waitForCreateCalc(frame: HTMLIFrameElement): Promise<void> {
+        while (typeof frame.contentWindow?.createCalc !== "function") {
+            await new Promise<number>(
+                (resolve) => void requestAnimationFrame(resolve),
+            );
         }
-        return iframe.value;
-    }
-
-    function waitForCreateCalc(frame: HTMLIFrameElement) {
-        return new Promise<void>((resolve) => {
-            const check = () => {
-                if (typeof frame.contentWindow?.createCalc === "function") {
-                    void resolve();
-                    return;
-                }
-                void requestAnimationFrame(check);
-            };
-
-            void check();
-        });
     }
 
     return { mountInto };

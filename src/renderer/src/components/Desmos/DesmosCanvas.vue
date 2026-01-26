@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { useDesmosStore } from "./CanvasPool";
 
-const CanvasDiv = ref<HTMLDivElement | null>(null);
 const store = useDesmosStore();
+const CanvasDiv = ref<HTMLDivElement | null>(null);
 const calculator = ref<Desmos.Calculator | undefined>(undefined);
+const iframe = ref<HTMLIFrameElement | null>(null);
 
 const props = defineProps<{
     config: any;
@@ -17,12 +18,20 @@ onMounted(async () => {
         return;
     }
 
-    const iframe = await store.mountInto(CanvasDiv.value);
+    iframe.value = await store.mountInto(CanvasDiv.value);
 
-    calculator.value = iframe.contentWindow?.createCalc(
+    calculator.value = iframe.value.contentWindow?.createCalc(
         props.config,
         props.settings,
     );
+});
+
+onUnmounted(() => {
+    calculator.value?.destroy?.();
+    calculator.value = undefined;
+
+    iframe.value?.remove();
+    iframe.value = null;
 });
 
 function setExpression(expr) {
