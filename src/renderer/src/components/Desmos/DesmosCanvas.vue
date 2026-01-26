@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
 
 const frame = ref<HTMLIFrameElement | null>(null);
 const calculator = ref<Desmos.Calculator | undefined>(undefined);
 
 function onload() {
-    calculator.value = frame.value?.contentWindow?.calculator;
+    calculator.value = frame.value?.contentWindow?.createCalc(
+        myGraphCongif,
+        myGraphSettings,
+    );
+
     if (calculator.value == undefined) {
         console.log("Error: calculator failed to load.");
     }
 }
-
-// function getCalculator() {
-//     return calculator.value;
-// }
 
 function setExpression(expr) {
     calculator.value?.setExpression(expr);
