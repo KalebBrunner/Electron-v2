@@ -8,9 +8,9 @@ const graphB = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 const graphC = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 
 function doThing() {
-    //     graphA.value?.setExpression({ id: "fxx", latex: "f(x)=xx" });
-    //     graphB.value?.setExpression({ id: "fxx", latex: "f(x)=xxx" });
-    //     graphC.value?.setExpression({ id: "fxx", latex: "\\frac{x}{4}\\cos(20x)" });
+    graphA.value?.setExpression({ id: "fxx", latex: "f(x)=xx" });
+    graphB.value?.setExpression({ id: "fxx", latex: "f(x)=xxx" });
+    graphC.value?.setExpression({ id: "fxx", latex: "\\frac{x}{4}\\cos(20x)" });
 }
 </script>
 

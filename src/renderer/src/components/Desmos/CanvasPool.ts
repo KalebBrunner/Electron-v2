@@ -28,15 +28,14 @@ export const useDesmosStore = defineStore("Graphs", () => {
     function waitForCreateCalc(frame: HTMLIFrameElement) {
         return new Promise<void>((resolve) => {
             const check = () => {
-                const fn = frame.contentWindow?.createCalc;
-                if (typeof fn === "function") {
-                    resolve();
+                if (typeof frame.contentWindow?.createCalc === "function") {
+                    void resolve();
                     return;
                 }
-                requestAnimationFrame(check);
+                void requestAnimationFrame(check);
             };
 
-            check();
+            void check();
         });
     }
 
