@@ -2,15 +2,17 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import { useDesmosStore } from "./CanvasPool";
 
-const store = useDesmosStore();
-const CanvasDiv = ref<HTMLDivElement | null>(null);
-const calculator = ref<Desmos.Calculator | undefined>(undefined);
-const iframe = ref<HTMLIFrameElement | null>(null);
-
 const props = defineProps<{
     config: any;
     settings: any;
 }>();
+
+const emit = defineEmits(["DesmosLoaded"]);
+
+const store = useDesmosStore();
+const CanvasDiv = ref<HTMLDivElement | null>(null);
+const calculator = ref<Desmos.Calculator | undefined>(undefined);
+const iframe = ref<HTMLIFrameElement | null>(null);
 
 onMounted(async () => {
     if (!CanvasDiv.value) {
@@ -24,6 +26,8 @@ onMounted(async () => {
         props.config,
         props.settings,
     );
+
+    emit("DesmosLoaded", "Desmos is ready to run");
 });
 
 onUnmounted(() => {

@@ -7,61 +7,52 @@ import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
 // const graphB = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 const graphC = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 
-type Point = { x: number; y: number };
+// type Point = { x: number; y: number };
 
-// 👇 this is the live-updating array you want
-const points = ref<Point[]>([]);
-
-let hx: any = null;
-let hy: any = null;
+// // 👇 this is the live-updating array you want
+// const points = ref<Point[]>([]);
 
 function doThing() {
     const c = graphC.value?.getCalculator();
     if (!c) return;
 
-    c.setExpression({
-        id: "tbl",
-        type: "table",
-        columns: [
-            { latex: "\\sigma_{Pneg}", values: ["1", "2", "3", "4", "5"] },
-            {
-                latex: "\\omega_{P}",
-                values: ["1", "4", "9", "16", "25"],
-                dragMode: "XY",
-            },
-        ],
-    });
+    c.setExpressions([
+        {
+            id: "P",
+            type: "expression",
+            latex: "P = (X, Y)",
+        },
+    ]);
 
-    // Clean up if doThing can run multiple times
-    hx?.unobserve?.("listValue");
-    hy?.unobserve?.("listValue");
+    // // Observe the table columns as lists
+    // hx = c.HelperExpression({ latex: "\\sigma_{Pneg}" });
+    // hy = c.HelperExpression({ latex: "\\omega_{P}" });
 
-    // Observe the table columns as lists
-    hx = c.HelperExpression({ latex: "\\sigma_{Pneg}" });
-    hy = c.HelperExpression({ latex: "\\omega_{P}" });
+    // const syncPoints = () => {
+    //     const xs: number[] = hx.listValue ?? [];
+    //     const ys: number[] = hy.listValue ?? [];
 
-    const syncPoints = () => {
-        const xs: number[] = hx.listValue ?? [];
-        const ys: number[] = hy.listValue ?? [];
+    //     points.value = xs.map((x, i) => ({
+    //         x,
+    //         y: ys[i] ?? NaN,
+    //     }));
+    // };
 
-        points.value = xs.map((x, i) => ({
-            x,
-            y: ys[i] ?? NaN,
-        }));
-    };
+    // // Live update whenever a point is dragged
+    // hx.observe("listValue", syncPoints);
+    // hy.observe("listValue", syncPoints);
 
-    // Live update whenever a point is dragged
-    hx.observe("listValue", syncPoints);
-    hy.observe("listValue", syncPoints);
+    // // set initial value immediately
+    // syncPoints();
+}
 
-    // set initial value immediately
-    syncPoints();
+function log() {
+    console.log("ready");
 }
 </script>
 
 <template>
     <main class="page">
-        <div>{{ points }}</div>
         <button @click="doThing">Press Me</button>
 
         <!-- <div class="upperRow">
@@ -83,6 +74,7 @@ function doThing() {
                 ref="graphC"
                 :config="myGraphCongif"
                 :settings="myGraphSettings"
+                @DesmosLoaded="doThing"
             />
         </div>
     </main>
