@@ -34,12 +34,13 @@ onUnmounted(() => {
     iframe.value = null;
 });
 
-function setExpression(expr) {
-    calculator.value?.setExpression(expr);
+function getCalculator(): Desmos.Calculator {
+    if (!calculator.value) throw new Error("Desmos calculator not ready yet");
+    return calculator.value;
 }
 
 defineExpose({
-    setExpression,
+    getCalculator,
 });
 </script>
 
