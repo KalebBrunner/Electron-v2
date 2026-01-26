@@ -24,14 +24,6 @@ onMounted(async () => {
         props.settings,
     );
 });
-
-function setExpression(expr) {
-    calculator.value?.setExpression(expr);
-}
-
-defineExpose({
-    setExpression,
-});
 </script>
 
 <template>
