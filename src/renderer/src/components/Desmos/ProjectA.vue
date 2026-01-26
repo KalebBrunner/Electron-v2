@@ -1,58 +1,51 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { Ref, ref, watch } from "vue";
 import DesmosCanvas from "./DesmosCanvas.vue";
 import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
+import { bindExprToRef, bindRefToExpr } from "./DesmosUtilities";
+import { exp } from "mathjs";
 
 // const graphA = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 // const graphB = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 const graphC = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 
-// type Point = { x: number; y: number };
+type Point = { x: number; y: number };
 
 // // 👇 this is the live-updating array you want
 // const points = ref<Point[]>([]);
+const X = ref<number>(0);
+const Y = ref<number>(0);
+const Z = ref<number>(0);
 
 function doThing() {
     const c = graphC.value?.getCalculator();
     if (!c) return;
 
     c.setExpressions([
+        { id: "X", type: "expression", latex: "X = -3" },
+        { id: "Y", type: "expression", latex: "Y = -3" },
+
         {
             id: "P",
             type: "expression",
             latex: "P = (X, Y)",
         },
+        {
+            id: "Z",
+            type: "expression",
+            latex: "Z=0",
+        },
     ]);
 
-    // // Observe the table columns as lists
-    // hx = c.HelperExpression({ latex: "\\sigma_{Pneg}" });
-    // hy = c.HelperExpression({ latex: "\\omega_{P}" });
-
-    // const syncPoints = () => {
-    //     const xs: number[] = hx.listValue ?? [];
-    //     const ys: number[] = hy.listValue ?? [];
-
-    //     points.value = xs.map((x, i) => ({
-    //         x,
-    //         y: ys[i] ?? NaN,
-    //     }));
-    // };
-
-    // // Live update whenever a point is dragged
-    // hx.observe("listValue", syncPoints);
-    // hy.observe("listValue", syncPoints);
-
-    // // set initial value immediately
-    // syncPoints();
-}
-
-function log() {
-    console.log("ready");
+    bindRefToExpr(c, "X", X);
+    bindRefToExpr(c, "Y", Y);
+    bindExprToRef(c, "Z", Y);
 }
 </script>
 
 <template>
     <main class="page">
+        <div>({{ X }}, {{ Y }}) Z = {{ Z }}</div>
         <button @click="doThing">Press Me</button>
 
         <!-- <div class="upperRow">
