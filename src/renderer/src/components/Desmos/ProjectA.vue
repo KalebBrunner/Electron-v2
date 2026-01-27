@@ -1,89 +1,46 @@
 <script setup lang="ts">
-import { computed, Ref, ref, watch } from "vue";
 import DesmosCanvas from "./DesmosCanvas.vue";
 import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
-import { bindExprToRef, bindRefToExpr, ListsToPoints } from "./DesmosUtilities";
+import { crossSync } from "./crossSync";
+import { ref } from "vue";
 
-// const graphA = ref<InstanceType<typeof DesmosCanvas> | null>(null);
-// const graphB = ref<InstanceType<typeof DesmosCanvas> | null>(null);
-const graphC = ref<InstanceType<typeof DesmosCanvas> | null>(null);
+const graphG = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 
-// // 👇 this is the live-updating array you want
-// const points = ref<Point[]>([]);
-const sigma_1 = ref<number[]>([]);
-const omega_1 = ref<number[]>([]);
-const omega_2 = computed(() => omega_1.value.map((n) => -n));
+const P = ref<number[]>([0, 0]);
+const Q = ref<number[]>([0, 0]);
 const Z = ref<number>(0);
-const points = ListsToPoints(sigma_1, omega_1);
 
-function doThing() {
-    const c = graphC.value?.getCalculator();
-    if (!c) return;
+function onLoad() {
+    const g = graphG.value?.getCalculator();
+    if (!g) return;
 
-    c.setExpressions([
+    g.setExpressions([
         {
-            type: "table",
-            columns: [
-                {
-                    latex: "\\sigma_1",
-                    values: ["1", "2"],
-                },
-                {
-                    latex: "\\omega_1",
-                    values: ["1", "4"],
-                    dragMode: "XY",
-                },
-            ],
+            id: "P",
+            type: "expression",
+            latex: "P=(1, 2)",
         },
         {
-            type: "table",
-            columns: [
-                {
-                    latex: "\\sigma_2",
-                    values: ["1", "2"],
-                },
-                {
-                    latex: "\\omega_2",
-                    values: ["-1", "-4"],
-                    dragMode: "XY",
-                },
-            ],
+            id: "Q",
+            type: "expression",
+            latex: "Q=(1, -2)",
         },
     ]);
 
-    bindRefToExpr(c, "\\sigma_1", sigma_1);
-    bindRefToExpr(c, "\\omega_1", omega_1);
-
-    bindExprToRef(c, "\\sigma_2", sigma_1);
-    bindExprToRef(c, "\\omega_2", omega_2);
+    crossSync(g, "P", P, "Q", Q);
 }
 </script>
 
 <template>
     <main class="page">
-        <div>{{ points }} Z = {{ Z }}</div>
-        <button @click="doThing">Press Me</button>
-
-        <!-- <div class="upperRow">
-            <DesmosCanvas
-                class="square"
-                ref="graphA"
-                :config="myGraphCongif"
-                :settings="myGraphSettings"
-            />
-            <DesmosCanvas
-                class="fill"
-                ref="graphB"
-                :config="myGraphCongif"
-                :settings="myGraphSettings"
-            />
-        </div> -->
+        <div>{{ P }} {{ Q }}</div>
+        <button @click="onLoad">Press Me</button>
         <div class="fillRow">
             <DesmosCanvas
-                ref="graphC"
+                ref="graphG"
                 :config="myGraphCongif"
                 :settings="myGraphSettings"
-                @DesmosLoaded="doThing"
+                @DesmosLoaded="onLoad"
             />
         </div>
     </main>
