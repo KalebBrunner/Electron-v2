@@ -9,12 +9,12 @@ function safeSync(
     A: Ref<number[]>,
     latexB: string,
 ) {
-    const ha = graph.HelperExpression({ latex: latexA });
+    const SensorA = graph.HelperExpression({ latex: latexA });
 
-    ha.observe("listValue", () => {
+    SensorA.observe("listValue", () => {
         // Ignore if the other side is currently writing
         if (lock.current === latexB) return;
-        A.value = [ha.listValue[0], ha.listValue[1]];
+        A.value = [SensorA.listValue[0], SensorA.listValue[1]];
         lock.current = latexA;
         try {
             graph.setExpression({

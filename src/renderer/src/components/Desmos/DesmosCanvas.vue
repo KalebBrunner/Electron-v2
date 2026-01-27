@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, Ref, ref } from "vue";
 import { useDesmosStore } from "./CanvasPool";
+import { Point } from "./DesmosUtilities";
+import { crossSync } from "./crossSync2";
 
 const props = defineProps<{
     config: any;
@@ -38,13 +40,36 @@ onUnmounted(() => {
     iframe.value = null;
 });
 
-function getCalculator(): Desmos.Calculator {
+function calc(): Desmos.Calculator {
     if (!calculator.value) throw new Error("Desmos calculator not ready yet");
     return calculator.value;
 }
 
+function createPoint(point: Ref<Point>) {
+    calc().setExpression(point.value.toDesmosExpression());
+
+    const sensor = calc().HelperExpression({
+        latex: point.value.LatexName,
+    });
+
+    sensor.observe("listValue", () => {
+        console.log("Update");
+        point.value.setFromListValue(sensor.listValue);
+    });
+}
+
+function createConjugatePoints(A: Ref<Point>, B: Ref<Point>) {
+    calc().setExpression(A.value.toDesmosExpression());
+    calc().setExpression(B.value.toDesmosExpression());
+
+    console.log("activate syncing");
+    crossSync(calc(), A, B);
+}
+
 defineExpose({
-    getCalculator,
+    getCalculator: calc,
+    createPoint,
+    createConjugatePoints,
 });
 </script>
 

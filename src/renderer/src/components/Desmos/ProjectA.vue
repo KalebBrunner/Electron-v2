@@ -1,39 +1,29 @@
 <script setup lang="ts">
 import DesmosCanvas from "./DesmosCanvas.vue";
 import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
-import { crossSync } from "./crossSync";
 import { ref } from "vue";
+import { Point } from "./DesmosUtilities";
+// import { Point } from "./DesmosUtilities";
 
 const graphG = ref<InstanceType<typeof DesmosCanvas> | null>(null);
 
-const P = ref<number[]>([0, 0]);
-const Q = ref<number[]>([0, 0]);
-const Z = ref<number>(0);
+const PointA = ref(new Point("1", "P", 1, 2));
+const PointB = ref(new Point("2", "Q", 1, 9));
+const PointC = ref(new Point("3", "C", 1, 9));
 
 function onLoad() {
     const g = graphG.value?.getCalculator();
     if (!g) return;
+    graphG.value?.createPoint(PointC);
 
-    g.setExpressions([
-        {
-            id: "P",
-            type: "expression",
-            latex: "P=(1, 2)",
-        },
-        {
-            id: "Q",
-            type: "expression",
-            latex: "Q=(1, -2)",
-        },
-    ]);
-
-    crossSync(g, "P", P, "Q", Q);
+    graphG.value?.createConjugatePoints(PointA, PointB);
 }
 </script>
 
 <template>
     <main class="page">
-        <div>{{ P }} {{ Q }}</div>
+        <div>{{ PointA.valueExpression }}{{ PointB.valueExpression }}</div>
+        <!-- <div>{{ P }} {{ Q }}</div> -->
         <button @click="onLoad">Press Me</button>
         <div class="fillRow">
             <DesmosCanvas
