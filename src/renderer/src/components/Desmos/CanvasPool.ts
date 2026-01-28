@@ -1,10 +1,16 @@
 import { defineStore } from "pinia";
 
-export const useDesmosStore = defineStore("Graphs", () => {
+export function getDesmosIframe(
+    div: HTMLDivElement,
+): Promise<HTMLIFrameElement> {
+    return DesmosStore().mountInto(div);
+}
+
+const DesmosStore = defineStore("Graphs", () => {
     async function mountInto(target: HTMLDivElement) {
         const iframe = createIframe();
         void target.appendChild(iframe);
-        void (await waitForCreateCalc(iframe));
+        void (await waitReady());
         void console.log("[DesmosStore] iframe ready in target");
         return iframe;
     }
@@ -19,12 +25,12 @@ export const useDesmosStore = defineStore("Graphs", () => {
         return iframe;
     }
 
-    async function waitForCreateCalc(frame: HTMLIFrameElement): Promise<void> {
-        while (typeof frame.contentWindow?.createCalc !== "function") {
-            await new Promise<number>(
-                (resolve) => void requestAnimationFrame(resolve),
-            );
-        }
+    function waitReady() {
+        return new Promise<void>((response) =>
+            window.addEventListener("message", () => response(), {
+                once: true,
+            }),
+        );
     }
 
     return { mountInto };

@@ -6,3 +6,6 @@ interface Window {
         Settings: Desmos.Desmos.GraphSettings,
     ) => Desmos.Calculator;
 }
+
+// const win = iframe.value!.contentWindow as DesmosFrameWindow;
+// const calc = win.createCalc(props.config, props.settings);

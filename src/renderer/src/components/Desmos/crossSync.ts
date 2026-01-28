@@ -1,26 +1,26 @@
 import { Ref } from "vue";
+import { Point } from "./DesmosUtilities";
 
 type Lock = { current: string };
 
 function safeSync(
     graph: Desmos.Calculator,
     lock: Lock,
-    latexA: string,
-    A: Ref<number[]>,
-    latexB: string,
+    A: Ref<Point>,
+    B: Ref<Point>,
 ) {
-    const SensorA = graph.HelperExpression({ latex: latexA });
+    const sensorA = graph.HelperExpression({ latex: A.value.LatexName });
 
-    SensorA.observe("listValue", () => {
-        // Ignore if the other side is currently writing
-        if (lock.current === latexB) return;
-        A.value = [SensorA.listValue[0], SensorA.listValue[1]];
-        lock.current = latexA;
+    sensorA.observe("listValue", () => {
+        if (lock.current == B.value.id) return;
+        A.value.setFromListValue(sensorA.listValue);
+
+        lock.current = A.value.id;
         try {
             graph.setExpression({
-                id: latexB,
+                id: B.value.id,
                 type: "expression",
-                latex: `${latexB}=(${A.value[0]},${-A.value[1]})`,
+                latex: B.value.equationAsConjugateOf(A.value),
             });
         } finally {
             lock.current = "";
@@ -30,13 +30,11 @@ function safeSync(
 
 export function crossSync(
     graph: Desmos.Calculator,
-    latexA: string,
-    A: Ref<number[]>,
-    latexB: string,
-    B: Ref<number[]>,
+    A: Ref<Point>,
+    B: Ref<Point>,
 ) {
     const lock: Lock = { current: "" };
 
-    safeSync(graph, lock, latexA, A, latexB);
-    safeSync(graph, lock, latexB, B, latexA);
+    safeSync(graph, lock, A, B);
+    safeSync(graph, lock, B, A);
 }

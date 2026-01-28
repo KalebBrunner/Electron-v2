@@ -1,32 +1,38 @@
 <script setup lang="ts">
-import DesmosCanvas from "./DesmosCanvas.vue";
+import Graph from "./Graph.vue";
 import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
 import { ref } from "vue";
 import { Point } from "./DesmosUtilities";
 // import { Point } from "./DesmosUtilities";
 
-const graphG = ref<InstanceType<typeof DesmosCanvas> | null>(null);
+const graphG = ref<InstanceType<typeof Graph> | null>(null);
 
 const PointA = ref(new Point("1", "P", 1, 2));
 const PointB = ref(new Point("2", "Q", 1, 9));
 const PointC = ref(new Point("3", "C", 1, 9));
+const click = ref(true);
+
+function onClick() {
+    click.value = !click.value;
+}
 
 function onLoad() {
     const g = graphG.value?.getCalculator();
     if (!g) return;
     graphG.value?.createPoint(PointC);
-
     graphG.value?.createConjugatePoints(PointA, PointB);
 }
 </script>
 
 <template>
     <main class="page">
-        <div>{{ PointA.valueExpression }}{{ PointB.valueExpression }}</div>
+        <div>
+            {{ click }}{{ PointA.valueExpression }}{{ PointB.valueExpression }}
+        </div>
         <!-- <div>{{ P }} {{ Q }}</div> -->
-        <button @click="onLoad">Press Me</button>
+        <button @click="onClick">Press Me</button>
         <div class="fillRow">
-            <DesmosCanvas
+            <Graph
                 ref="graphG"
                 :config="myGraphCongif"
                 :settings="myGraphSettings"
@@ -50,7 +56,7 @@ function onLoad() {
     display: flex;
     gap: 20px;
     padding: 12px;
-    height: 350px;
+    height: 200px;
     min-height: 0;
 }
 

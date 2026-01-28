@@ -15,3 +15,4 @@ function getGraphingCalc(
 }
 
 window.createCalc = getGraphingCalc;
+parent.postMessage("ready", "*");
