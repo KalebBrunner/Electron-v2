@@ -1,4 +1,4 @@
-export class Point {
+export class Expression {
     public constructor(
         public id: string, // e.g. "124214"
         public LatexName: string, // e.g. "P_point1"
@@ -39,7 +39,7 @@ export class Point {
     }
 
     /** "ThisLatexName = (other.x, -other.y)" */
-    equationAsConjugateOf(other: Point): string {
+    equationAsConjugateOf(other: Expression): string {
         return this.equationFrom(other.conjugateValueExpression);
     }
 }

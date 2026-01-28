@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import Graph from "./Graph.vue";
-import { myGraphCongif, myGraphSettings } from "./host/graphSettings";
+import Graph from "./onload/Graph.vue";
+import { myGraphCongif, myGraphSettings } from "./onload/GraphDefaults";
 import { ref } from "vue";
-import { Point } from "./DesmosUtilities";
-// import { Point } from "./DesmosUtilities";
+import { Expression } from "./objects/Expression";
 
 const graphG = ref<InstanceType<typeof Graph> | null>(null);
 
-const PointA = ref(new Point("1", "P", 1, 2));
-const PointB = ref(new Point("2", "Q", 1, 9));
-const PointC = ref(new Point("3", "C", 1, 9));
+const PointA = ref(new Expression("1", "P", 1, 2));
+const PointB = ref(new Expression("2", "Q", 1, 9));
+const PointC = ref(new Expression("3", "C", 1, 9));
 const click = ref(true);
 
 function onClick() {

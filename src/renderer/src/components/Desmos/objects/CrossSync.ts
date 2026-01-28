@@ -1,13 +1,13 @@
 import { Ref } from "vue";
-import { Point } from "./DesmosUtilities";
+import { Expression } from "./Expression";
 
 type Lock = { current: string };
 
 function safeSync(
     graph: Desmos.Calculator,
     lock: Lock,
-    A: Ref<Point>,
-    B: Ref<Point>,
+    A: Ref<Expression>,
+    B: Ref<Expression>,
 ) {
     const sensorA = graph.HelperExpression({ latex: A.value.LatexName });
 
@@ -30,8 +30,8 @@ function safeSync(
 
 export function crossSync(
     graph: Desmos.Calculator,
-    A: Ref<Point>,
-    B: Ref<Point>,
+    A: Ref<Expression>,
+    B: Ref<Expression>,
 ) {
     const lock: Lock = { current: "" };
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, Ref, useTemplateRef } from "vue";
-import { getDesmosIframe } from "./CanvasPool";
-import { Point } from "./DesmosUtilities";
-import { crossSync } from "./crossSync";
+import { getDesmosIframe } from "./Iframe";
+import { Expression } from "../objects/Expression";
+import { crossSync } from "../objects/CrossSync";
 
 const emit = defineEmits<{ (e: "DesmosLoaded", msg: string): void }>();
 const props = defineProps<{
@@ -32,7 +32,7 @@ function getCalculator(): Desmos.Calculator {
     return calculator;
 }
 
-function createPoint(point: Ref<Point>) {
+function createPoint(point: Ref<Expression>) {
     calculator.setExpression(point.value.toDesmosExpression());
 
     const sensor = calculator.HelperExpression({
@@ -45,7 +45,7 @@ function createPoint(point: Ref<Point>) {
     });
 }
 
-function createConjugatePoints(A: Ref<Point>, B: Ref<Point>) {
+function createConjugatePoints(A: Ref<Expression>, B: Ref<Expression>) {
     calculator.setExpression(A.value.toDesmosExpression());
     calculator.setExpression(B.value.toDesmosExpression());
 
