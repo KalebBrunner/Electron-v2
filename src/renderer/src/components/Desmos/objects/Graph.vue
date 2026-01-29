@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, Ref, useTemplateRef } from "vue";
-import { getDesmosIframe } from "./PiniaIframe";
-import { Calculator } from "../objects/Calculator";
+import { getDesmosIframe } from "./GraphStore";
+import { Calculator } from "./Calculator";
 // import { crossSync } from "../objects/CrossSync";
 // import { DesPoint } from "../objects/DesObjects";
 // import { crossSync3 } from "../objects/CrossSync3";

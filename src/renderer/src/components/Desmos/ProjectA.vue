@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Graph from "./onload/Graph.vue";
+import Graph from "./objects/Graph.vue";
 import { myGraphCongif, myGraphSettings } from "./objects/DefaultConfig";
 import { ref } from "vue";
 import { DesPoint } from "./objects/graphables/Points";
