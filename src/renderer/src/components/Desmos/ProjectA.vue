@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DesPoint } from "./objects/DesObjects";
+import { DesFunction, DesPoint } from "./objects/DesObjects";
 import Graph from "./onload/Graph.vue";
 import { myGraphCongif, myGraphSettings } from "./onload/GraphDefaults";
 import { ref } from "vue";
@@ -9,12 +9,14 @@ const graphG = ref<InstanceType<typeof Graph> | null>(null);
 const PointA = ref(new DesPoint("A", -3, 2));
 const PointP = ref(new DesPoint("P", 1, 1));
 const PointQ = ref(new DesPoint("Q", 4, -4));
+const func = ref(new DesFunction("f(x)", "3x^{2.2}-5\\cdot\\sin(80x))"));
 
 function onLoad() {
     if (!graphG.value) return;
     const g = graphG.value.getCalculator();
     if (!g) return;
     graphG.value.BindConjugatePoints(PointP, PointQ);
+    g.setExpression(func.value.toDesNote);
 }
 
 const click = ref(true);

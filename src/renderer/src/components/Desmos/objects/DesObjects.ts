@@ -33,7 +33,7 @@ export class DesPoint implements DesExpression {
     }
 }
 
-class DesFunction implements DesExpression {
+export class DesFunction implements DesExpression {
     public LatexEquation: string;
 
     public constructor(
