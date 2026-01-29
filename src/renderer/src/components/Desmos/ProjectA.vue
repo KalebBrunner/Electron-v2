@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { DesFunction, DesPoint } from "./objects/DesObjects";
 import Graph from "./onload/Graph.vue";
-import { myGraphCongif, myGraphSettings } from "./onload/GraphDefaults";
+import { myGraphCongif, myGraphSettings } from "./objects/DefaultConfig";
 import { ref } from "vue";
+import { DesPoint } from "./objects/graphables/Points";
+import { DesFunction } from "./objects/graphables/Functions";
 
 const graphG = ref<InstanceType<typeof Graph> | null>(null);
 

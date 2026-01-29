@@ -1,5 +1,5 @@
 import type { Ref } from "vue";
-import { DesPoint } from "./DesObjects";
+import { DesPoint } from "../graphables/Points";
 
 export function crossSync3(
     graph: Desmos.Calculator,
@@ -67,9 +67,4 @@ export function crossSync3(
         pendingCoordinates = senseQ.listValue as number[];
         flush();
     });
-
-    // return () => {
-    //     senseP.remove();
-    //     senseQ.remove();
-    // };
 }

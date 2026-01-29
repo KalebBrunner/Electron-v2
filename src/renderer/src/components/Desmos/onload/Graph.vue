@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, Ref, useTemplateRef } from "vue";
 import { getDesmosIframe } from "./PiniaIframe";
-import { Calculator } from "./Calculator";
+import { Calculator } from "../objects/Calculator";
 // import { crossSync } from "../objects/CrossSync";
 // import { DesPoint } from "../objects/DesObjects";
 // import { crossSync3 } from "../objects/CrossSync3";
@@ -15,12 +15,6 @@ const props = defineProps<{
 let calc: Calculator;
 let iframe: HTMLIFrameElement;
 const Canvas = useTemplateRef("div");
-
-/**
- *
- * core
- *
- **/
 
 onMounted(async () => {
     iframe = await getDesmosIframe(Canvas.value!);

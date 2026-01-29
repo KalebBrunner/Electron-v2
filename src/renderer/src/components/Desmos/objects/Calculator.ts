@@ -1,6 +1,6 @@
 import { Ref } from "vue";
-import { DesPoint } from "../objects/DesObjects";
-import { crossSync3 } from "../objects/CrossSync3";
+import { crossSync3 } from "./Tools/CrossSync3";
+import { DesPoint } from "./graphables/Points";
 
 export class Calculator {
     public constructor(public calc: Desmos.Calculator) {}
@@ -37,18 +37,21 @@ export class Calculator {
     }
 }
 
-export function getDesGraphingCalc(
+export function createCalc(
     initialConfiguration: Desmos.GraphConfiguration,
     settings: Desmos.GraphSettings,
-): Desmos.Calculator {
+): Calculator {
     console.log("Getting basic graphing calculator from desmos");
     const htmlElt = document.getElementById("calc");
     if (!htmlElt) throw new Error("Missing #calc element");
 
-    const calculator: Desmos.Calculator = Desmos.GraphingCalculator(htmlElt, {
-        ...initialConfiguration,
-        ...settings,
-    });
+    const DesmosCalculator: Desmos.Calculator = Desmos.GraphingCalculator(
+        htmlElt,
+        {
+            ...initialConfiguration,
+            ...settings,
+        },
+    );
 
-    return calculator;
+    return new Calculator(DesmosCalculator);
 }

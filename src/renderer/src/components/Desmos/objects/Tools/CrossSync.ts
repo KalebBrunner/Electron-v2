@@ -1,5 +1,5 @@
 import { Ref } from "vue";
-import { DesPoint } from "./DesObjects";
+import { DesPoint } from "../graphables/Points";
 
 type Lock = { current: string };
 
@@ -32,7 +32,7 @@ function BindLeadertoGhost(
     });
 }
 
-export function crossSync(
+export function ConjugatePoints(
     graph: Desmos.Calculator,
     P: Ref<DesPoint>,
     Q: Ref<DesPoint>,

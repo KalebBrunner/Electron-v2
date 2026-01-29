@@ -25,9 +25,10 @@
         <div id="calc"></div>
         <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=26f57a8bc1224db7a05dfca6dd0093b3"></script>
 
-        <script
-            type="module"
-            src="../src/components/Desmos/onload/Window.ts"
-        ></script>
+        <script type="module">
+            import { createCalc } from "../src/components/Desmos/objects/Calculator.ts";
+            window.createCalc = createCalc;
+            parent.postMessage("ready", "*");
+        </script>
     </body>
 </html>
