@@ -3,27 +3,31 @@ import { DesPoint } from "./DesObjects";
 
 type Lock = { current: string };
 
-function BindAtoB(
+function BindLeadertoGhost(
     graph: Desmos.Calculator,
     lock: Lock,
-    A: Ref<DesPoint>,
-    B: Ref<DesPoint>,
+    leader: Ref<DesPoint>,
+    ghost: Ref<DesPoint>,
 ) {
-    const sensorA = graph.HelperExpression({ latex: A.value.VariableName });
+    const SenseLeader = graph.HelperExpression({
+        latex: leader.value.VariableName,
+    });
 
-    sensorA.observe("listValue", () => {
-        if (lock.current == B.value.id) return;
-        A.value.setFromArray(sensorA.listValue);
+    SenseLeader.observe("listValue", () => {
+        if (lock.current == ghost.value.id) return;
 
-        lock.current = A.value.id;
+        lock.current = leader.value.id;
         try {
+            leader.value.setFromArray(SenseLeader.listValue);
             graph.setExpression({
-                id: B.value.id,
+                id: ghost.value.id,
                 type: "expression",
-                latex: `${B.value.VariableName} = (${A.value.x}, ${-A.value.y})`,
+                latex: `${ghost.value.VariableName} = (${leader.value.x}, ${-leader.value.y})`,
             });
         } finally {
+            // requestAnimationFrame(() => {
             lock.current = "";
+            // });
         }
     });
 }
@@ -34,7 +38,6 @@ export function crossSync(
     Q: Ref<DesPoint>,
 ) {
     const lock: Lock = { current: "" };
-
-    BindAtoB(graph, lock, P, Q);
-    BindAtoB(graph, lock, Q, P);
+    BindLeadertoGhost(graph, lock, Q, P);
+    BindLeadertoGhost(graph, lock, P, Q);
 }

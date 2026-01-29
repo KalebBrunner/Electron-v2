@@ -3,6 +3,7 @@ import { onMounted, onUnmounted, Ref, useTemplateRef } from "vue";
 import { getDesmosIframe } from "./Iframe";
 import { crossSync } from "../objects/CrossSync";
 import { DesPoint } from "../objects/DesObjects";
+import { crossSync3 } from "../objects/CrossSync3";
 
 const emit = defineEmits<{ (e: "DesmosLoaded", msg: string): void }>();
 const props = defineProps<{
@@ -74,7 +75,7 @@ function BindConjugatePoints(A: Ref<DesPoint>, B: Ref<DesPoint>) {
     setDesNote(B.value.toDesNote);
 
     console.log("activate syncing");
-    crossSync(calc, A, B);
+    crossSync3(calc, A, B);
 }
 
 defineExpose({

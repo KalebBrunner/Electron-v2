@@ -6,16 +6,15 @@ import { ref } from "vue";
 
 const graphG = ref<InstanceType<typeof Graph> | null>(null);
 
-const PointA = ref(new DesPoint("P", 1, 2));
-const PointB = ref(new DesPoint("Q", 1, 9));
-const PointC = ref(new DesPoint("C", 1, 9));
+const PointA = ref(new DesPoint("A", -3, 2));
+const PointP = ref(new DesPoint("P", 1, 1));
+const PointQ = ref(new DesPoint("Q", 4, -4));
 
 function onLoad() {
     if (!graphG.value) return;
     const g = graphG.value.getCalculator();
     if (!g) return;
-    graphG.value?.BindPoint(PointA);
-    graphG.value.BindConjugatePoints(PointB, PointC);
+    graphG.value.BindConjugatePoints(PointP, PointQ);
 }
 
 const click = ref(true);
@@ -26,7 +25,7 @@ function onClick() {
 
 <template>
     <main class="page">
-        <div>{{ click }}{{ PointA.Expression }}{{ PointB.Expression }}</div>
+        <div>{{ click }}{{ PointA.Expression }}{{ PointP.Expression }}</div>
         <!-- <div>{{ P }} {{ Q }}</div> -->
         <button @click="onClick">Press Me</button>
         <div class="fillRow">
