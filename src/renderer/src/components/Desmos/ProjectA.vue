@@ -9,14 +9,14 @@ const graphG = ref<InstanceType<typeof Graph> | null>(null);
 const PointA = ref(new DesPoint("A", -3, 2));
 const PointP = ref(new DesPoint("P", 1, 1));
 const PointQ = ref(new DesPoint("Q", 4, -4));
-const func = ref(new DesFunction("f(x)", "3x^{2.2}-5\\cdot\\sin(80x))"));
+const func = ref(new DesFunction("f(x)", "3x^{2.2}-5\\cdot\\sin(80x)"));
 
 function onLoad() {
     if (!graphG.value) return;
     const g = graphG.value.getCalculator();
     if (!g) return;
-    graphG.value.BindConjugatePoints(PointP, PointQ);
-    g.setExpression(func.value.toDesNote);
+    g.BindConjugatePoints(PointP, PointQ);
+    g.setDesNote(func.value.toDesNote);
 }
 
 const click = ref(true);

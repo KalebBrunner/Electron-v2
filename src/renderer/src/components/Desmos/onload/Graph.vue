@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, Ref, useTemplateRef } from "vue";
-import { getDesmosIframe } from "./Iframe";
-import { crossSync } from "../objects/CrossSync";
-import { DesPoint } from "../objects/DesObjects";
-import { crossSync3 } from "../objects/CrossSync3";
+import { getDesmosIframe } from "./PiniaIframe";
+import { Calculator } from "./Calculator";
+// import { crossSync } from "../objects/CrossSync";
+// import { DesPoint } from "../objects/DesObjects";
+// import { crossSync3 } from "../objects/CrossSync3";
 
 const emit = defineEmits<{ (e: "DesmosLoaded", msg: string): void }>();
 const props = defineProps<{
@@ -11,7 +12,7 @@ const props = defineProps<{
     settings: any;
 }>();
 
-let calc: Desmos.Calculator;
+let calc: Calculator;
 let iframe: HTMLIFrameElement;
 const Canvas = useTemplateRef("div");
 
@@ -35,53 +36,12 @@ onUnmounted(() => {
     iframe.remove();
 });
 
-/**
- *
- * Renaming Desmos Functions
- *
- **/
-
-function setDesNote(note: DesNote) {
-    calc.setExpression(note as Desmos.ExpressionState);
-}
-
-function getSensor(VariableName: string): Sensor {
-    return calc.HelperExpression({ latex: VariableName });
-}
-
-/**
- *
- * Exposed Functions
- *
- **/
-
-function getCalculator(): Desmos.Calculator {
+function getCalculator(): Calculator {
     return calc;
-}
-
-function BindPoint(point: Ref<DesPoint>) {
-    setDesNote(point.value.toDesNote);
-
-    const sensor = getSensor(point.value.VariableName);
-
-    sensor.observe("listValue", () => {
-        console.log("Update");
-        point.value.setFromArray(sensor.listValue);
-    });
-}
-
-function BindConjugatePoints(A: Ref<DesPoint>, B: Ref<DesPoint>) {
-    setDesNote(A.value.toDesNote);
-    setDesNote(B.value.toDesNote);
-
-    console.log("activate syncing");
-    crossSync3(calc, A, B);
 }
 
 defineExpose({
     getCalculator,
-    BindPoint,
-    BindConjugatePoints,
 });
 </script>
 

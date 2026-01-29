@@ -1,10 +1,10 @@
 interface Window {
-    Calculator: Desmos.Calculator;
+    Calculator: Calculator;
     Desmos: typeof Desmos;
     createCalc: (
         initialConfiguration: Desmos.GraphConfiguration,
         Settings: Desmos.Desmos.GraphSettings,
-    ) => Desmos.Calculator;
+    ) => Calculator;
 }
 
 // const win = iframe.value!.contentWindow as DesmosFrameWindow;
