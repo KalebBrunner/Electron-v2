@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, Ref, useTemplateRef } from "vue";
 import { getDesmosIframe } from "./Iframe";
-import { Expression } from "../objects/Expression";
 import { crossSync } from "../objects/CrossSync";
+import { DesPoint } from "../objects/DesObjects";
 
 const emit = defineEmits<{ (e: "DesmosLoaded", msg: string): void }>();
 const props = defineProps<{
@@ -10,53 +10,77 @@ const props = defineProps<{
     settings: any;
 }>();
 
-let calculator: Desmos.Calculator;
+let calc: Desmos.Calculator;
 let iframe: HTMLIFrameElement;
 const Canvas = useTemplateRef("div");
+
+/**
+ *
+ * core
+ *
+ **/
 
 onMounted(async () => {
     iframe = await getDesmosIframe(Canvas.value!);
     const window = iframe.contentWindow;
     if (!window) return;
-    calculator = window.createCalc(props.config, props.settings);
+    calc = window.createCalc(props.config, props.settings);
 
     emit("DesmosLoaded", "Desmos is ready to run");
 });
 
 onUnmounted(() => {
-    calculator.destroy();
+    calc.destroy();
     iframe.remove();
 });
 
-function getCalculator(): Desmos.Calculator {
-    return calculator;
+/**
+ *
+ * Renaming Desmos Functions
+ *
+ **/
+
+function setDesNote(note: DesNote) {
+    calc.setExpression(note as Desmos.ExpressionState);
 }
 
-function createPoint(point: Ref<Expression>) {
-    calculator.setExpression(point.value.toDesmosExpression());
+function getSensor(VariableName: string): Sensor {
+    return calc.HelperExpression({ latex: VariableName });
+}
 
-    const sensor = calculator.HelperExpression({
-        latex: point.value.LatexName,
-    });
+/**
+ *
+ * Exposed Functions
+ *
+ **/
+
+function getCalculator(): Desmos.Calculator {
+    return calc;
+}
+
+function BindPoint(point: Ref<DesPoint>) {
+    setDesNote(point.value.toDesNote);
+
+    const sensor = getSensor(point.value.VariableName);
 
     sensor.observe("listValue", () => {
         console.log("Update");
-        point.value.setFromListValue(sensor.listValue);
+        point.value.setFromArray(sensor.listValue);
     });
 }
 
-function createConjugatePoints(A: Ref<Expression>, B: Ref<Expression>) {
-    calculator.setExpression(A.value.toDesmosExpression());
-    calculator.setExpression(B.value.toDesmosExpression());
+function BindConjugatePoints(A: Ref<DesPoint>, B: Ref<DesPoint>) {
+    setDesNote(A.value.toDesNote);
+    setDesNote(B.value.toDesNote);
 
     console.log("activate syncing");
-    crossSync(calculator, A, B);
+    crossSync(calc, A, B);
 }
 
 defineExpose({
     getCalculator,
-    createPoint,
-    createConjugatePoints,
+    BindPoint,
+    BindConjugatePoints,
 });
 </script>
 

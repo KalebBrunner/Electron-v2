@@ -1,33 +1,32 @@
 <script setup lang="ts">
+import { DesPoint } from "./objects/DesObjects";
 import Graph from "./onload/Graph.vue";
 import { myGraphCongif, myGraphSettings } from "./onload/GraphDefaults";
 import { ref } from "vue";
-import { Expression } from "./objects/Expression";
 
 const graphG = ref<InstanceType<typeof Graph> | null>(null);
 
-const PointA = ref(new Expression("1", "P", 1, 2));
-const PointB = ref(new Expression("2", "Q", 1, 9));
-const PointC = ref(new Expression("3", "C", 1, 9));
-const click = ref(true);
-
-function onClick() {
-    click.value = !click.value;
-}
+const PointA = ref(new DesPoint("P", 1, 2));
+const PointB = ref(new DesPoint("Q", 1, 9));
+const PointC = ref(new DesPoint("C", 1, 9));
 
 function onLoad() {
-    const g = graphG.value?.getCalculator();
+    if (!graphG.value) return;
+    const g = graphG.value.getCalculator();
     if (!g) return;
-    graphG.value?.createPoint(PointC);
-    graphG.value?.createConjugatePoints(PointA, PointB);
+    graphG.value?.BindPoint(PointA);
+    graphG.value.BindConjugatePoints(PointB, PointC);
+}
+
+const click = ref(true);
+function onClick() {
+    click.value = !click.value;
 }
 </script>
 
 <template>
     <main class="page">
-        <div>
-            {{ click }}{{ PointA.valueExpression }}{{ PointB.valueExpression }}
-        </div>
+        <div>{{ click }}{{ PointA.Expression }}{{ PointB.Expression }}</div>
         <!-- <div>{{ P }} {{ Q }}</div> -->
         <button @click="onClick">Press Me</button>
         <div class="fillRow">
