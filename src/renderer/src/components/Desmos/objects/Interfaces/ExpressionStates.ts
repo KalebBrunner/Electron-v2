@@ -60,7 +60,7 @@ interface DesTable extends DesNote {
         lineOpacity?: number | string;
         pointStyle?: keyof typeof Desmos.Styles;
         pointSize?: number | string;
-        pointOpacity?: number | string;
+        // pointOpacity?: number | string;
         dragMode?: keyof typeof Desmos.DragModes;
     }>;
     id?: string;

@@ -1,24 +1,47 @@
 <script setup lang="ts">
 import Graph from "./objects/Graph.vue";
 import { myGraphCongif, myGraphSettings } from "./objects/DefaultConfig";
-import { ref } from "vue";
-import { DesPoint } from "./objects/graphables/Points";
+import { Ref, ref } from "vue";
+import { DesPoint, PointStyling } from "./objects/graphables/Points";
 import { DesFunction } from "./objects/graphables/Functions";
 
 const graphG = ref<InstanceType<typeof Graph> | null>(null);
-
-const PointA = ref(new DesPoint("A", -3, 2));
-const PointP = ref(new DesPoint("P", 1, 1));
-const PointQ = ref(new DesPoint("Q", 4, -4));
-const func = ref(new DesFunction("f(x)", "3x^{2.2}-5\\cdot\\sin(80x)"));
-
+var isMounted = ref(false);
+const PointA = ref(
+    new DesPoint(
+        "A",
+        -3.1214,
+        2.4512,
+        PointStyling.new({
+            color: "#c74440",
+            pointOpacity: 1,
+            pointSize: 15,
+        }),
+    ),
+);
+// const PointP = ref(new DesPoint("P", 1, 1.125));
+// const func = ref(new DesFunction("f(x)", "3x^{2.2}-5\\cdot\\sin(80x)"));
+var ReactiveQ: Ref<DesPoint>;
 function onLoad() {
     if (!graphG.value) return;
     const g = graphG.value.getCalculator();
+    console.log("graph loaded");
     if (!g) return;
-    g.BindConjugatePoints(PointP, PointQ);
-    g.setDesNote(func.value.toDesNote);
+
+    g.BindGridPoint(PointA);
+
+    isMounted.value = true;
 }
+
+// const Npoles: number = 3;
+// const Poles = ref<DesPoint[]>(null!);
+// const NRoots: number = 2;
+// const Roots = ref<DesPoint[]>(null!);
+// function loadPoles(
+
+//     for()
+
+// );
 
 const click = ref(true);
 function onClick() {
@@ -28,7 +51,11 @@ function onClick() {
 
 <template>
     <main class="page">
-        <div>{{ click }}{{ PointA.Expression }}{{ PointP.Expression }}</div>
+        <div v-if:="isMounted">
+            <!-- {{ click }}{{ PointA.Expression }}{{ PointP.Expression
+            }}{{ PointQ.x }} -->
+            {{ ReactiveQ.VariableName }} {{ ReactiveQ.Expression }}
+        </div>
         <!-- <div>{{ P }} {{ Q }}</div> -->
         <button @click="onClick">Press Me</button>
         <div class="fillRow">
