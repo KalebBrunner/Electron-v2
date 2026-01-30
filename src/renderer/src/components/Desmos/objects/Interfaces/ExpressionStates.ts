@@ -1,15 +1,14 @@
-interface DesNote {
-    type?: string;
-    id?: string;
-}
+// type DesNote = Desmos.ExpressionState;
 
-interface DesText extends DesNote {
+type DesNote = DesText | DesExpression | DesTable;
+
+interface DesText {
     type?: string;
     text?: string;
     id?: string;
 }
 
-interface DesExpression extends DesNote {
+interface DesExpression {
     type?: "expression";
     latex?: string;
     color?: string;
@@ -18,6 +17,7 @@ interface DesExpression extends DesNote {
     lineOpacity?: number | string;
     pointStyle?: keyof typeof Desmos.Styles;
     pointSize?: number | string;
+    movablePointSize?: number | string;
     pointOpacity?: number | string;
     fillOpacity?: number | string;
     points?: boolean;
@@ -46,7 +46,7 @@ interface DesExpression extends DesNote {
     labelOrientation?: keyof typeof Desmos.LabelOrientations;
 }
 
-interface DesTable extends DesNote {
+interface DesTable {
     type: "table";
     columns: ReadonlyArray<{
         latex: string;

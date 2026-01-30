@@ -1,34 +1,29 @@
 <script setup lang="ts">
 import Graph from "./objects/Graph.vue";
 import { myGraphCongif, myGraphSettings } from "./objects/DefaultConfig";
-import { Ref, ref } from "vue";
-import { DesPoint, PointStyling } from "./objects/graphables/Points";
+import { ref } from "vue";
+import { DesPoint } from "./objects/graphables/Points";
+import { DesPointStyleObj } from "./objects/graphables/PointStyles";
 import { DesFunction } from "./objects/graphables/Functions";
 
 const graphG = ref<InstanceType<typeof Graph> | null>(null);
 var isMounted = ref(false);
-const PointA = ref(
-    new DesPoint(
-        "A",
-        -3.1214,
-        2.4512,
-        PointStyling.new({
-            color: "#c74440",
-            pointOpacity: 1,
-            pointSize: 15,
-        }),
-    ),
+const PointA = ref(new DesPoint("A", -3.1214, 2.4512));
+const PointB = ref(
+    new DesPoint("B", 1, 1.125, { color: "#2fb56bff" } as DesPointStyleObj),
 );
-// const PointP = ref(new DesPoint("P", 1, 1.125));
-// const func = ref(new DesFunction("f(x)", "3x^{2.2}-5\\cdot\\sin(80x)"));
-var ReactiveQ: Ref<DesPoint>;
+
+const PointP = ref(new DesPoint("P", 1, 1.125));
+const func = ref(new DesFunction("f(x)", "3x^{2.2}-5\\cdot\\sin(80x)"));
 function onLoad() {
     if (!graphG.value) return;
     const g = graphG.value.getCalculator();
     console.log("graph loaded");
     if (!g) return;
-
+    g.calc.setExpression(func.value.toDesNote);
     g.BindGridPoint(PointA);
+    g.BindPoint(PointP);
+    g.BindPoint(PointB);
 
     isMounted.value = true;
 }
@@ -37,11 +32,6 @@ function onLoad() {
 // const Poles = ref<DesPoint[]>(null!);
 // const NRoots: number = 2;
 // const Roots = ref<DesPoint[]>(null!);
-// function loadPoles(
-
-//     for()
-
-// );
 
 const click = ref(true);
 function onClick() {
@@ -54,7 +44,7 @@ function onClick() {
         <div v-if:="isMounted">
             <!-- {{ click }}{{ PointA.Expression }}{{ PointP.Expression
             }}{{ PointQ.x }} -->
-            {{ ReactiveQ.VariableName }} {{ ReactiveQ.Expression }}
+            <!-- {{ ReactiveQ.VariableName }} {{ ReactiveQ.Expression }} -->
         </div>
         <!-- <div>{{ P }} {{ Q }}</div> -->
         <button @click="onClick">Press Me</button>
@@ -74,16 +64,16 @@ function onClick() {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 20px;
+    padding: 80px;
     box-sizing: border-box;
     min-height: 0;
 }
 
 .upperRow {
     display: flex;
-    gap: 20px;
+    gap: 80px;
     padding: 12px;
-    height: 200px;
+    height: 800px;
     min-height: 0;
 }
 

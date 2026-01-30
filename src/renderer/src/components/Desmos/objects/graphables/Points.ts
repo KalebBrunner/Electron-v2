@@ -1,20 +1,24 @@
-import { round as roundjs } from "mathjs";
-import { PointStyling } from "./PointStyles";
+import { DesPointStyleObj, PointStyling } from "./PointStyles";
 
 export class DesPoint implements DesExpression {
-    // public Expression: string;
-    // public LatexEquation: string;
-    // sensitivity: number = 5;
     id: string;
     dragMode: keyof typeof Desmos.DragModes = "AUTO";
-
+    style: PointStyling;
     public constructor(
         public VariableName: string,
         public x: number,
         public y: number,
-        public DisplayOpts?: PointStyling,
+        DisplayOpts?: DesPointStyleObj | PointStyling,
     ) {
         this.id = this.VariableName;
+
+        if (!DisplayOpts) {
+            this.style = new PointStyling();
+        } else if (DisplayOpts instanceof PointStyling) {
+            this.style = DisplayOpts;
+        } else {
+            this.style = new PointStyling(DisplayOpts);
+        }
     }
 
     get Expression(): string {
@@ -28,20 +32,21 @@ export class DesPoint implements DesExpression {
         console.log(this.LatexEquation);
     }
 
-    get toDesNote(): DesExpression {
+    get toDesNote(): DesNote {
         return {
             id: this.id,
             type: "expression",
             latex: this.LatexEquation,
             dragMode: this.dragMode,
 
-            color: this.DisplayOpts?.color,
-            // pointStyle: this.DisplayOpts?.pointStyle,
-            pointSize: this.DisplayOpts?.pointSize,
-            pointOpacity: this.DisplayOpts?.pointOpacity,
-            hidden: this.DisplayOpts?.hidden,
-            secret: this.DisplayOpts?.secret,
-        };
+            pointOpacity: this.style.pointOpacity,
+            pointStyle: this.style.pointStyle,
+            pointSize: this.style.pointSize,
+            movablePointSize: this.style.movablePointSize,
+            color: this.style.color,
+            hidden: this.style.hidden,
+            secret: this.style.secret,
+        } as DesNote;
     }
 
     setFromArray(pair: number[]) {
@@ -62,4 +67,3 @@ export class DesPoint implements DesExpression {
         };
     }
 }
-export { PointStyling };
