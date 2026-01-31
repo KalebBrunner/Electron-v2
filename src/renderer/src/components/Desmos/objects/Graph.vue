@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, Ref, useTemplateRef } from "vue";
+import { Calculator } from "@renderer/components/NameSpaces/Des/Calculator";
+import { onMounted, onUnmounted, useTemplateRef } from "vue";
 import { getDesmosIframe } from "./GraphStore";
-import { Calculator } from "./Calculator";
-// import { crossSync } from "../objects/CrossSync";
-// import { DesPoint } from "../objects/DesObjects";
-// import { crossSync3 } from "../objects/CrossSync3";
 
 const emit = defineEmits<{ (e: "DesmosLoaded", msg: string): void }>();
 const props = defineProps<{
@@ -17,10 +14,17 @@ let iframe: HTMLIFrameElement;
 const Canvas = useTemplateRef("div");
 
 onMounted(async () => {
+    console.log("Check 1:");
     iframe = await getDesmosIframe(Canvas.value!);
+    console.log("Check 2:");
     const window = iframe.contentWindow;
-    if (!window) return;
-    calc = window.createCalc(props.config, props.settings);
+    if (!window) {
+        return console.log("Window failed to exist");
+    } else {
+        console.log("Window exists");
+    }
+    console.log("Check 3:");
+    calc = window.getDesCalculator(props.config, props.settings);
 
     emit("DesmosLoaded", "Desmos is ready to run");
 });

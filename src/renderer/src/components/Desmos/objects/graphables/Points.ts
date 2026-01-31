@@ -1,6 +1,8 @@
+import { DesNote } from "@renderer/components/NameSpaces/Des/Notes/DesNote";
 import { DesPointStyleObj, PointStyling } from "./PointStyles";
 
-export class DesPoint implements DesExpression {
+export class DesPoint implements DesNote {
+    type: "expression" = "expression";
     id: string;
     dragMode: keyof typeof Desmos.DragModes = "AUTO";
     style: PointStyling;
@@ -32,7 +34,7 @@ export class DesPoint implements DesExpression {
         console.log(this.LatexEquation);
     }
 
-    get toDesNote(): DesNote {
+    toDesNote(): Desmos.ExpressionState {
         return {
             id: this.id,
             type: "expression",
@@ -46,7 +48,7 @@ export class DesPoint implements DesExpression {
             color: this.style.color,
             hidden: this.style.hidden,
             secret: this.style.secret,
-        } as DesNote;
+        } as Desmos.ExpressionState;
     }
 
     setFromArray(pair: number[]) {

@@ -1,67 +1,54 @@
-// type DesNote = Desmos.ExpressionState;
+// import {
+//     DesmosDomain,
+//     DesmosDragMode,
+//     DesmosExpressionType,
+//     DesmosLabelOrientation,
+//     DesmosLineStyle,
+//     DesmosPointStyle,
+// } from "./MinorInterfaces";
 
-type DesNote = DesText | DesExpression | DesTable;
+// export namespace myDes {
+//     export interface DesmosExpression {
+//         id: string;
+//         type: DesmosExpressionType;
 
-interface DesText {
-    type?: string;
-    text?: string;
-    id?: string;
-}
+//         latex: string;
 
-interface DesExpression {
-    type?: "expression";
-    latex?: string;
-    color?: string;
-    lineStyle?: keyof typeof Desmos.Styles;
-    lineWidth?: number | string;
-    lineOpacity?: number | string;
-    pointStyle?: keyof typeof Desmos.Styles;
-    pointSize?: number | string;
-    movablePointSize?: number | string;
-    pointOpacity?: number | string;
-    fillOpacity?: number | string;
-    points?: boolean;
-    lines?: boolean;
-    fill?: boolean;
-    hidden?: boolean;
-    secret?: boolean;
-    sliderBounds?: {
-        min: number | string;
-        max: number | string;
-        step: number | string;
-    };
-    parametricDomain?: {
-        min: number | string;
-        max: number | string;
-    };
-    polarDomain?: {
-        min: number | string;
-        max: number | string;
-    };
-    id?: string;
-    dragMode?: keyof typeof Desmos.DragModes;
-    label?: string;
-    showLabel?: boolean;
-    labelSize?: keyof typeof Desmos.LabelSizes;
-    labelOrientation?: keyof typeof Desmos.LabelOrientations;
-}
+//         // visibility / behavior
+//         hidden: boolean;
+//         secret: boolean;
+//         readonly: boolean;
+//         playing: boolean;
 
-interface DesTable {
-    type: "table";
-    columns: ReadonlyArray<{
-        latex: string;
-        values?: string[];
-        color?: string;
-        hidden?: boolean;
-        points?: boolean;
-        lines?: boolean;
-        lineStyle?: keyof typeof Desmos.Styles;
-        lineWidth?: number | string;
-        lineOpacity?: number | string;
-        pointStyle?: keyof typeof Desmos.Styles;
-        pointSize?: number | string;
-        // pointOpacity?: number | string;
-        dragMode?: keyof typeof Desmos.DragModes;
-    }>;
-    id?: string;
-}
+//         // styling
+//         color: string; // hex like "#388c46"
+//         lineStyle: DesmosLineStyle;
+//         lineWidth: string; // "" means default
+//         lineOpacity: string; // "" means default
+//         fillOpacity: string; // "" means default
+
+//         pointStyle: DesmosPointStyle;
+//         pointSize: string; // stored as string in state
+//         pointOpacity: string; // e.g. "0.8" or ""
+//         movablePointSize: string; // stored as string, "" means default
+
+//         // drag + domains
+//         dragMode: DesmosDragMode;
+//         domain: DesmosDomain;
+//         polarDomain: DesmosDomain;
+//         parametricDomain: DesmosDomain;
+
+//         // 3D parametric domains (present even in 2D state)
+//         parametricDomain3Du: DesmosDomain;
+//         parametricDomain3Dv: DesmosDomain;
+//         parametricDomain3Dr: DesmosDomain;
+//         parametricDomain3Dphi: DesmosDomain;
+
+//         // labels
+//         label: string;
+//         showLabel: boolean;
+//         interactiveLabel: boolean;
+//         labelOrientation: DesmosLabelOrientation;
+//         labelSize: string; // "" means default
+//     }
+// }

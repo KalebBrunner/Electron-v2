@@ -1,4 +1,7 @@
-export class DesFunction implements DesExpression {
+import { DesNote } from "@renderer/components/NameSpaces/Des/Notes/DesNote";
+
+export class QuickFunction implements DesNote {
+    type: "expression" = "expression";
     public LatexEquation: string;
 
     public constructor(
@@ -9,10 +12,10 @@ export class DesFunction implements DesExpression {
         this.LatexEquation = `${this.VariableName}=${this.Expression}`;
     }
 
-    get toDesNote(): DesExpression {
+    toDesNote(): Desmos.ExpressionState {
         return {
             id: this.id,
-            type: "expression",
+            type: this.type,
             latex: this.LatexEquation,
         };
     }

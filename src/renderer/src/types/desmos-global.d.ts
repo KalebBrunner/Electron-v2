@@ -1,9 +1,9 @@
 interface Window {
     Calculator: Calculator;
     Desmos: typeof Desmos;
-    createCalc: (
-        initialConfiguration: Desmos.GraphConfiguration,
-        Settings: Desmos.Desmos.GraphSettings,
+    getDesCalculator: (
+        initialConfiguration: GraphConfiguration,
+        Settings: GraphSettings,
     ) => Calculator;
 }
 
