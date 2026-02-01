@@ -8,9 +8,10 @@ export enum PageName {
     MonadA,
     Pinia,
     DesmosPg,
+    GraphCanvas,
 }
 
-export const currentPage = ref<PageName>(PageName.DesmosPg);
+export const currentPage = ref<PageName>(PageName.GraphCanvas);
 
 export function pageSwapTo(page: PageName) {
     currentPage.value = page;

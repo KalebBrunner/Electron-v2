@@ -16,6 +16,7 @@ const isActive = (page: PageName) => currentPage.value === page;
                 { label: 'Monad', page: PageName.MonadA },
                 { label: 'Pinia', page: PageName.Pinia },
                 { label: 'Desmos', page: PageName.DesmosPg },
+                { label: 'Canvas', page: PageName.GraphCanvas },
             ]"
             :key="item.label"
         >

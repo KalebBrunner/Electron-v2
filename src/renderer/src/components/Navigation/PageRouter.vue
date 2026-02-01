@@ -8,6 +8,7 @@ import MonadA from "../Monoids/MonadA.vue";
 import Pinia from "../Pinia/Index.vue";
 import Navbar from "./Navbar.vue";
 import Desmos from "../Desmos/ProjectA.vue";
+import GraphCanvas from "../Canvas/Index.vue";
 </script>
 
 <template>
@@ -33,6 +34,10 @@ import Desmos from "../Desmos/ProjectA.vue";
             <!-- Desmos should take the full available space -->
             <Desmos
                 v-if="currentPage === PageName.DesmosPg"
+                class="flex-grow-1"
+            />
+            <GraphCanvas
+                v-if="currentPage === PageName.GraphCanvas"
                 class="flex-grow-1"
             />
         </main>
