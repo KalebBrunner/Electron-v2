@@ -30,10 +30,12 @@ onMounted(() => {
         console.log("css rectangle");
         engine.css.draw(50 as CSSpx, 100 as CSSpx, 50 as CSSpx, 100 as CSSpx);
     });
+
     engine.ResizeActions.push(() => {
         console.log("coord rectangle");
-        engine.coord.draw(150 as Vikpx, 100 as Vikpx, 50 as Vikpx, 50 as Vikpx);
+        engine.coord.draw(0 as Vikpx, 0 as Vikpx, 1 as Vikpx, 1 as Vikpx);
     });
+
     engine.ResizeActions.push(() => {
         console.log("device pixel rectangle");
         engine.draw(

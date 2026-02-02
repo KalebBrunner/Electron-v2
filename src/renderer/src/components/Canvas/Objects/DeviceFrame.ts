@@ -3,6 +3,7 @@ import { Screenpx } from "./PixelUnits";
 
 export class DeviceFrame {
     constructor(readonly engine: CanvasEngine) {}
+
     draw(x: Screenpx, y: Screenpx, width: Screenpx, height: Screenpx) {
         const dpr = this.engine.css.dpr;
         this.engine.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
