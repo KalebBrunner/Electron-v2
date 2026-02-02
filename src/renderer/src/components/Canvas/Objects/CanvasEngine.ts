@@ -1,15 +1,19 @@
+import { CoordinateFrame } from "./CoordinateFrame";
 import { CSSFrame } from "./CSSFrame";
+import { Screenpx } from "./PixelUnits";
 
 type resizeFunction = (engine: CanvasEngine) => void;
 
 export class CanvasEngine {
     readonly css: CSSFrame;
+    readonly coord: CoordinateFrame;
 
     constructor(
         readonly canvas: HTMLCanvasElement,
         readonly ctx: CanvasRenderingContext2D,
     ) {
-        this.css = new CSSFrame(canvas, ctx);
+        this.css = new CSSFrame(this);
+        this.coord = new CoordinateFrame(this);
     }
 
     resize() {
@@ -29,7 +33,8 @@ export class CanvasEngine {
         }
     }
 
-    draw(x: number, y: number, width: number, height: number) {
+    draw(x: Screenpx, y: Screenpx, width: Screenpx, height: Screenpx) {
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.fillStyle = "#063ef7ff";
         this.ctx.fillRect(x, y, width, height);
     }

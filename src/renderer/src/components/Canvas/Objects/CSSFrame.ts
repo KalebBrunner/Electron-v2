@@ -1,10 +1,13 @@
+import { CanvasEngine } from "./CanvasEngine";
+import { CSSpx } from "./PixelUnits";
+
 export class CSSFrame {
     readonly #canvas: HTMLCanvasElement;
     readonly #ctx: CanvasRenderingContext2D;
 
-    constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-        this.#canvas = canvas;
-        this.#ctx = ctx;
+    constructor(readonly engine: CanvasEngine) {
+        this.#canvas = engine.canvas;
+        this.#ctx = engine.ctx;
     }
 
     get dpr() {
@@ -42,5 +45,17 @@ export class CSSFrame {
 
         // 4) draw in CSS pixels (map CSS -> device)
         this.#ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    draw(x: CSSpx, y: CSSpx, width: CSSpx, height: CSSpx) {
+        const dpr = this.engine.css.dpr;
+        this.engine.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        this.engine.ctx.fillStyle = "#ff6a00ff";
+        this.engine.ctx.fillRect(
+            x as number,
+            y as number,
+            width as number,
+            height as number,
+        );
     }
 }

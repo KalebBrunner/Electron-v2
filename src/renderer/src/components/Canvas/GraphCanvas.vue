@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
-import { CanvasEngine } from "./CanvasEngine";
+import { CanvasEngine } from "./Objects/CanvasEngine";
 import { drawGrid } from "./EngineActions/DrawGrid";
+import { CSSpx, Screenpx, Vikingpx as Vikpx } from "./Objects/PixelUnits";
 
 type Point = { x: number; y: number }; // canvas coords (CSS pixels)
 
@@ -26,13 +27,26 @@ onMounted(() => {
 
     engine.ResizeActions.push(drawGrid);
     engine.ResizeActions.push(() => {
-        console.log("drawing a rectangle");
-        engine.draw(50, 100, 50, 100);
+        console.log("css rectangle");
+        engine.css.draw(50 as CSSpx, 100 as CSSpx, 50 as CSSpx, 100 as CSSpx);
     });
+    engine.ResizeActions.push(() => {
+        console.log("coord rectangle");
+        engine.coord.draw(150 as Vikpx, 100 as Vikpx, 50 as Vikpx, 50 as Vikpx);
+    });
+    engine.ResizeActions.push(() => {
+        console.log("device pixel rectangle");
+        engine.draw(
+            100 as Screenpx,
+            300 as Screenpx,
+            50 as Screenpx,
+            50 as Screenpx,
+        );
+    });
+
+    window.addEventListener("resize", () => engine.resize());
     engine.resize();
 });
-
-new (class Listner {})();
 
 onBeforeUnmount(() => {
     // const canvas = myCanvas.value;

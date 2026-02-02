@@ -1,4 +1,4 @@
-import { CanvasEngine } from "../CanvasEngine";
+import { CanvasEngine } from "../Objects/CanvasEngine";
 
 export function drawGrid(engine: CanvasEngine) {
     console.log("drawing grid");
