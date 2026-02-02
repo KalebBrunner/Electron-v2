@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
-import { CTXEngine } from "./CTXEngine";
-import { drawGrid } from "./EngineActions";
+import { CanvasEngine } from "./CanvasEngine";
+import { drawGrid } from "./EngineActions/DrawGrid";
 
 type Point = { x: number; y: number }; // canvas coords (CSS pixels)
 
@@ -22,22 +22,17 @@ onMounted(() => {
     ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const engine = new CTXEngine(canvas, ctx);
+    const engine = new CanvasEngine(canvas, ctx);
 
     engine.ResizeActions.push(drawGrid);
-    engine.resizeCanvas();
-
-    // engine.listenTo("pointermove", onPointerMove);
-
-    // canvas.addEventListener("pointermove", onPointerMove);
-    // canvas.addEventListener("pointerup", onPointerUp);
-    // canvas.addEventListener("pointercancel", onPointerUp);
-
-    // window.addEventListener("resize", resizeCanvas, { passive: true });
-    // window.addEventListener("keydown", onKeyDown);
-
-    // resizeCanvas();
+    engine.ResizeActions.push(() => {
+        console.log("drawing a rectangle");
+        engine.draw(50, 100, 50, 100);
+    });
+    engine.resize();
 });
+
+new (class Listner {})();
 
 onBeforeUnmount(() => {
     // const canvas = myCanvas.value;

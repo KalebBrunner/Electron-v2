@@ -1,21 +1,23 @@
-import { CTXEngine } from "./CTXEngine";
+import { CanvasEngine } from "../CanvasEngine";
 
-export function drawGrid(engine: CTXEngine) {
+export function drawGrid(engine: CanvasEngine) {
+    console.log("drawing grid");
     const GRID_SIZE = 25; // CSS px
     const ctx = engine.ctx;
-    const width = engine.cssWidth; // CSS px
-    const height = engine.cssHeight; // CSS px
+    const dpr = engine.css.dpr;
+
+    const { width, height } = engine.css.size;
 
     // background
     ctx.fillStyle = "#0b1020";
     ctx.fillRect(0, 0, width, height);
 
     // half-pixel alignment for DPR
-    const o = 0.5 / engine.devicePixelRatio;
+    const o = 0.5 / dpr;
 
     // Grid
     ctx.strokeStyle = "rgba(255,255,255,0.08)";
-    ctx.lineWidth = 1 / engine.devicePixelRatio; // 1 physical px
+    ctx.lineWidth = 1 / dpr; // 1 physical px
 
     ctx.beginPath();
     for (let x = 0; x <= width; x += GRID_SIZE) {
@@ -33,7 +35,7 @@ export function drawGrid(engine: CTXEngine) {
     const cy = Math.floor(height / 2);
 
     ctx.strokeStyle = "rgba(255,255,255,0.25)";
-    ctx.lineWidth = 2 / engine.devicePixelRatio; // 2 physical px
+    ctx.lineWidth = 2 / dpr; // 2 physical px
 
     ctx.beginPath();
     ctx.moveTo(cx + o, 0);
