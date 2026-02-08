@@ -1,6 +1,10 @@
-import { CoordinateFrame } from "./CoordinateFrame";
-import { CSSFrame } from "./CSSFrame";
-import { Screenpx } from "./PixelUnits";
+import { CoordinateFrame } from "../CioordinateSystems/CoordinateFrame";
+import { CSSFrame } from "../CioordinateSystems/CSSFrame";
+import {
+    CTXMatrix,
+    CTXVector,
+    Screenpx,
+} from "../CioordinateSystems/PixelUnits";
 
 type resizeFunction = (engine: CanvasEngine) => void;
 
@@ -25,7 +29,7 @@ export class CanvasEngine {
 
     ResizeActions: resizeFunction[] = [];
 
-    onResize(f: resizeFunction | resizeFunction[]) {
+    onResize(f: resizeFunction) {
         if (Array.isArray(f)) {
             this.ResizeActions.push(...f);
         } else {
@@ -34,7 +38,12 @@ export class CanvasEngine {
     }
 
     draw(x: Screenpx, y: Screenpx, width: Screenpx, height: Screenpx) {
-        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+        const xVector = new CTXVector(1, 0);
+        const yVector = new CTXVector(0, 1);
+        const ScreenMatrix = new CTXMatrix(xVector, yVector);
+        ScreenMatrix.asTransform();
+
+        this.ctx.setTransform();
         this.ctx.fillStyle = "#063ef7ff";
         this.ctx.fillRect(x, y, width, height);
     }

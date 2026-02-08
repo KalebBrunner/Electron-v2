@@ -1,89 +1,50 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref, useTemplateRef } from "vue";
-import { CanvasEngine } from "./Objects/CanvasEngine";
-import { drawGrid } from "./EngineActions/DrawGrid";
-import { CSSpx, Screenpx, Vikingpx as Vikpx } from "./Objects/PixelUnits";
-
-type Point = { x: number; y: number }; // canvas coords (CSS pixels)
-
-const POINT_RADIUS = 6; // hit radius
-const SNAP_WHILE_DRAGGING = true;
-
-let draggingIndex: number | null = null;
-let dragOffset = { dx: 0, dy: 0 };
-let isPointerDown = false;
 
 const myCanvas = useTemplateRef("myCanvas");
-let ctx: CanvasRenderingContext2D | null = null;
+// let ctx: CanvasRenderingContext2D | null = null;
 
-onMounted(() => {
+function resizeCanvas() {
     const canvas = myCanvas.value;
     if (!canvas) return;
 
-    ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const engine = new CanvasEngine(canvas, ctx);
+    const { width, height } = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
 
-    engine.ResizeActions.push(drawGrid);
-    engine.ResizeActions.push(() => {
-        console.log("css rectangle");
-        engine.css.draw(50 as CSSpx, 100 as CSSpx, 50 as CSSpx, 100 as CSSpx);
-    });
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
 
-    engine.ResizeActions.push(() => {
-        console.log("coord rectangle");
-        engine.coord.draw(0 as Vikpx, 0 as Vikpx, 1 as Vikpx, 1 as Vikpx);
-    });
+    ctx.scale(dpr, dpr);
+}
 
-    engine.ResizeActions.push(() => {
-        console.log("device pixel rectangle");
-        engine.draw(
-            100 as Screenpx,
-            300 as Screenpx,
-            50 as Screenpx,
-            50 as Screenpx,
-        );
-    });
+onMounted(() => {
+    // const canvas = myCanvas.value;
+    // if (!canvas) return;
 
-    window.addEventListener("resize", () => engine.resize());
-    engine.resize();
+    // const ctx = canvas.getContext("2d");
+    // if (!ctx) return;
+
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
 });
 
 onBeforeUnmount(() => {
-    // const canvas = myCanvas.value;
-    // if (canvas) {
-    //     canvas.removeEventListener("pointerdown", onPointerDown);
-    //     canvas.removeEventListener("pointermove", onPointerMove);
-    //     canvas.removeEventListener("pointerup", onPointerUp);
-    //     canvas.removeEventListener("pointercancel", onPointerUp);
-    // }
-    // window.removeEventListener("resize", resizeCanvas);
-    // window.removeEventListener("keydown", onKeyDown);
-    // ctx = null;
+    window.removeEventListener("resize", resizeCanvas);
 });
 </script>
 
 <template>
     <canvas
         ref="myCanvas"
-        class="graph-canvas"
+        class="canvas"
     ></canvas>
 </template>
 
 <style scoped>
-.graph-canvas {
-    display: flex;
-    flex: 1 1 auto;
-    min-height: 0;
-
-    border-radius: 16px;
-    overflow: hidden;
-    background: #111;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-}
-
-.frame {
-    flex: 1 1 auto;
+canvas {
+    background-color: black;
 }
 </style>

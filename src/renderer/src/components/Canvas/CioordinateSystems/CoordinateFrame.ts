@@ -1,4 +1,4 @@
-import { CanvasEngine } from "./CanvasEngine";
+import { CanvasEngine } from "../Objects/CanvasEngine";
 import { Vikingpx } from "./PixelUnits";
 
 export class rect {

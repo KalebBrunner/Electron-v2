@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { PageName, pageSwapTo, currentPage } from "./NavigationTools";
+import { PageName, pageSwapTo, currentPage } from "./Nav";
 
 const go = (page: PageName) => pageSwapTo(page);
 const isActive = (page: PageName) => currentPage.value === page;
 </script>
 
 <template>
+    <!-- PageSwapDirectory.vue -->
     <ul class="navbar-nav flex-row flex-wrap justify-content-center gap-2">
         <li
             class="nav-item"

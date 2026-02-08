@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import PageSwapDirectory from "../Navigation/PageSwapDirectory.vue";
+import PageSwapDirectory from "../Navigation/List.vue";
 import Versions from "./Versions.vue";
 
 const ipcHandle = (): void => window.electron.ipcRenderer.send("ping");
